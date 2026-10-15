@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="QuickPark.AdminPage"
+    Title="Admin dashboard"
+    BackgroundColor="{StaticResource QuickParkPage}">
+
+    <Grid x:Name="AdminLayout" ColumnDefinitions="220,*">
+        <Border
+            x:Name="AdminSidebar"
+            Grid.Column="0"
+            BackgroundColor="#0B1D38"
+            StrokeThickness="0"
+            Padding="14,20">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <HorizontalStackLayout Spacing="10" Margin="5,0,0,24">
+                    <Border
+                        WidthRequest="42"
+                        HeightRequest="42"
+                        BackgroundColor="#1478F5"
+                        Stroke="#75BCFF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 13">
+                        <Image
+                            Source="login_quickpark_logo.svg"
+                            WidthRequest="36"
+                            HeightRequest="36"
+                            Aspect="AspectFit"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            SemanticProperties.Description="QuickPark logo" />
+                    </Border>
+                    <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                        <Label Text="QuickPark" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="ADMIN PANEL" FontSize="9" CharacterSpacing="1.5" TextColor="#AFC4DF" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout
+                    x:Name="SidebarNavigation"
+                    Grid.Row="1"
+                    Spacing="7">
+                    <Button Text="Dashboard" ImageSource="nav_home.svg" ContentLayout="Left,12" CommandParameter="Dashboard" Clicked="AdminNavigationButton_Clicked" BackgroundColor="#1469E8" TextColor="White" FontSize="12" FontAttributes="Bold" HorizontalOptions="Fill" HeightRequest="44" CornerRadius="12" Padding="12,0" />
+                    <Button Text="Parking management" ImageSource="admin_parking.svg" ContentLayout="Left,12" CommandParameter="Parking" Clicked="AdminNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HorizontalOptions="Fill" HeightRequest="44" CornerRadius="12" Padding="12,0" />
+                    <Button Text="Bookings" ImageSource="nav_bookings.svg" ContentLayout="Left,12" CommandParameter="Bookings" Clicked="AdminNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HorizontalOptions="Fill" HeightRequest="44" CornerRadius="12" Padding="12,0" />
+                    <Button Text="Users" ImageSource="nav_profile.svg" ContentLayout="Left,12" CommandParameter="Users" Clicked="AdminNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HorizontalOptions="Fill" HeightRequest="44" CornerRadius="12" Padding="12,0" />
+                    <Button Text="Reports" ImageSource="nav_history.svg" ContentLayout="Left,12" CommandParameter="Reports" Clicked="AdminNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HorizontalOptions="Fill" HeightRequest="44" CornerRadius="12" Padding="12,0" />
+                    <Button Text="Settings" ImageSource="nav_settings.svg" ContentLayout="Left,12" CommandParameter="Settings" Clicked="AdminNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HorizontalOptions="Fill" HeightRequest="44" CornerRadius="12" Padding="12,0" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="2" Spacing="5">
+                    <BoxView HeightRequest="1" Color="#28405E" Margin="0,0,0,12" />
+                    <Label Text="SIGNED IN AS" FontSize="9" CharacterSpacing="1.2" TextColor="#8298B4" />
+                    <Label x:Name="AdminEmailLabel" FontSize="11" TextColor="#E4ECF7" LineBreakMode="TailTruncation" MaxLines="2" />
+                    <Button
+                        Text="Sign out"
+                        ImageSource="nav_logout.svg"
+                        ContentLayout="Left,10"
+                        Clicked="LogoutButton_Clicked"
+                        SemanticProperties.Description="Sign out of admin account"
+                        BackgroundColor="Transparent"
+                        TextColor="#C5D1E1"
+                        FontSize="12"
+                        HorizontalOptions="Fill"
+                        HeightRequest="42"
+                        CornerRadius="12"
+                        Padding="10,0"
+                        Margin="0,6,0,0" />
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+            <Grid
+                Padding="20,9"
+                BackgroundColor="White"
+                ColumnDefinitions="*,Auto,Auto,Auto"
+                ColumnSpacing="12">
+                <Label x:Name="WorkspaceTitleLabel" Text="Admin workspace" FontSize="13" FontAttributes="Bold" TextColor="#243B5C" VerticalOptions="Center" />
+                <Button
+                    Grid.Column="1"
+                    Style="{StaticResource QuickParkSecondaryButton}"
+                    Text="↻  Refresh"
+                    Clicked="RefreshButton_Clicked"
+                    SemanticProperties.Description="Refresh admin data"
+                    HeightRequest="38"
+                    Padding="12,0" />
+                <Border Grid.Column="2" BackgroundColor="#EDF3FA" StrokeThickness="0" StrokeShape="RoundRectangle 20" Padding="10,5" VerticalOptions="Center">
+                    <Label Text="ADMIN" FontSize="9" CharacterSpacing="1" FontAttributes="Bold" TextColor="#365372" />
+                </Border>
+                <Button
+                    x:Name="CompactLogoutButton"
+                    Grid.Column="3"
+                    Text="Sign out"
+                    Clicked="LogoutButton_Clicked"
+                    SemanticProperties.Description="Sign out of admin account"
+                    IsVisible="False"
+                    BackgroundColor="#FFF0F0"
+                    TextColor="#A83A45"
+                    FontSize="10"
+                    FontAttributes="Bold"
+                    HeightRequest="36"
+                    CornerRadius="11"
+                    Padding="9,0" />
+            </Grid>
+
+            <ScrollView
+                x:Name="DashboardScrollView"
+                Grid.Row="1"
+                VerticalScrollBarVisibility="Never">
+                <VerticalStackLayout
+                    x:Name="DashboardContent"
+                    MaximumWidthRequest="1500"
+                    Padding="18,17"
+                    Spacing="14"
+                    HorizontalOptions="Fill">
+
+                    <ScrollView
+                        x:Name="CompactNavigation"
+                        IsVisible="False"
+                        Orientation="Horizontal"
+                        HorizontalScrollBarVisibility="Never">
+                        <HorizontalStackLayout Spacing="6">
+                            <Button Text="Dashboard" ImageSource="nav_home.svg" ContentLayout="Left,5" CommandParameter="Dashboard" Clicked="AdminNavigationButton_Clicked" BackgroundColor="#1469E8" TextColor="White" FontSize="11" HeightRequest="36" CornerRadius="11" Padding="9,0" />
+                            <Button Text="Parking" ImageSource="nav_parking.svg" ContentLayout="Left,5" CommandParameter="Parking" Clicked="AdminNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="11" HeightRequest="36" CornerRadius="11" Padding="9,0" />
+                            <Button Text="Bookings" ImageSource="nav_bookings_dark.svg" ContentLayout="Left,5" CommandParameter="Bookings" Clicked="AdminNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="11" HeightRequest="36" CornerRadius="11" Padding="9,0" />
+                            <Button Text="Users" ImageSource="nav_profile_dark.svg" ContentLayout="Left,5" CommandParameter="Users" Clicked="AdminNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="11" HeightRequest="36" CornerRadius="11" Padding="9,0" />
+                            <Button Text="Reports" ImageSource="nav_history_dark.svg" ContentLayout="Left,5" CommandParameter="Reports" Clicked="AdminNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="11" HeightRequest="36" CornerRadius="11" Padding="9,0" />
+                            <Button Text="Settings" ImageSource="nav_settings_dark.svg" ContentLayout="Left,5" CommandParameter="Settings" Clicked="AdminNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="11" HeightRequest="36" CornerRadius="11" Padding="9,0" />
+                        </HorizontalStackLayout>
+                    </ScrollView>
+
+                    <Border
+                        x:Name="WelcomeBanner"
+                        HeightRequest="126"
+                        Stroke="#BCD1E8"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="18,15">
+                        <Grid>
+                            <Image Source="login_garage_panorama.svg" Aspect="AspectFill" InputTransparent="True" />
+                            <BoxView Color="#C9EAF3FC" InputTransparent="True" />
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                                    <Label Text="WELCOME BACK, ADMIN" FontSize="9" CharacterSpacing="1.4" FontAttributes="Bold" TextColor="#38628C" />
+                                    <Label Text="Your parking network, at a glance." FontSize="22" FontAttributes="Bold" TextColor="#142B4B" />
+                                    <Label Text="Manage spaces, bookings and operations from one place." FontSize="11" TextColor="#466487" />
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" BackgroundColor="#EFFFFFFF" Stroke="#B9CEE5" StrokeThickness="1" StrokeShape="RoundRectangle 14" Padding="10,8" VerticalOptions="Center">
+                                    <VerticalStackLayout Spacing="1">
+                                        <Label Text="LATEST REPORT" FontSize="8" CharacterSpacing="0.8" FontAttributes="Bold" TextColor="#54708E" />
+                                        <Label Text="UTC · up to 500 records" FontSize="9" TextColor="#354E6B" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <Label
+                        x:Name="StatusLabel"
+                        IsVisible="False"
+                        FontSize="12"
+                        TextColor="#A52D39"
+                        BackgroundColor="#FFF0F0"
+                        Padding="14,10" />
+
+                    <Grid
+                        x:Name="MetricsGrid"
+                        ColumnDefinitions="*,*,*,*"
+                        RowDefinitions="Auto,Auto"
+                        ColumnSpacing="10">
+                        <Border Grid.Column="0" BackgroundColor="White" Stroke="#E1EAF4" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="13">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Border WidthRequest="36" HeightRequest="36" BackgroundColor="#E9F1FF" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                                    <Label Text="P" FontSize="22" FontAttributes="Bold" TextColor="#216EF0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="Total parking slots" FontSize="10" TextColor="#546780" />
+                                    <Label x:Name="SlotsMetricLabel" Text="—" FontSize="23" FontAttributes="Bold" TextColor="#122A4B" />
+                                    <Label x:Name="LocationsMetricLabel" Text="— locations" FontSize="9" TextColor="#7A8BA1" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                        <Border Grid.Column="1" BackgroundColor="White" Stroke="#E1EAF4" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="13">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Border WidthRequest="36" HeightRequest="36" BackgroundColor="#E6F7EF" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                                    <Label Text="✓" FontSize="21" FontAttributes="Bold" TextColor="#0A9A67" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="Available spaces" FontSize="10" TextColor="#546780" />
+                                    <Label x:Name="AvailableMetricLabel" Text="—" FontSize="23" FontAttributes="Bold" TextColor="#122A4B" />
+                                    <Label Text="Ready to book" FontSize="9" TextColor="#7A8BA1" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                        <Border x:Name="OccupiedMetricCard" Grid.Column="2" BackgroundColor="White" Stroke="#E1EAF4" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="13">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Border WidthRequest="36" HeightRequest="36" BackgroundColor="#FFF0F1" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                                    <Label Text="●" FontSize="18" TextColor="#E34454" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="Occupied spaces" FontSize="10" TextColor="#546780" />
+                                    <Label x:Name="OccupiedMetricLabel" Text="—" FontSize="23" FontAttributes="Bold" TextColor="#122A4B" />
+                                    <Label Text="Currently in use" FontSize="9" TextColor="#7A8BA1" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                        <Border x:Name="BookingsMetricCard" Grid.Column="3" BackgroundColor="White" Stroke="#E1EAF4" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="13">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Border WidthRequest="36" HeightRequest="36" BackgroundColor="#F0ECFF" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                                    <Label Text="▦" FontSize="20" FontAttributes="Bold" TextColor="#7046E8" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="Total bookings" FontSize="10" TextColor="#546780" />
+                                    <Label x:Name="ReservationsMetricLabel" Text="—" FontSize="23" FontAttributes="Bold" TextColor="#122A4B" />
+                                    <Label x:Name="DailyReservationsLabel" Text="Today: —" FontSize="9" TextColor="#7A8BA1" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <Grid
+                        x:Name="DashboardColumns"
+                        ColumnDefinitions="*,310"
+                        ColumnSpacing="12"
+                        RowDefinitions="Auto,Auto,Auto,Auto">
+                        <Border
+                            x:Name="ParkingSection"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="15"
+                            Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="11">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="Parking overview" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                        <Label Text="Your managed parking locations." FontSize="10" TextColor="#798AA0" />
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="1" Text="+ Add area" Clicked="AddLocationButton_Clicked" Style="{StaticResource QuickParkSecondaryButton}" FontSize="10" HeightRequest="40" Padding="10,0" />
+                                </Grid>
+                                <VerticalStackLayout x:Name="LocationsList" Spacing="7" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border
+                            x:Name="UsageSection"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="15"
+                            Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="Parking space usage" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
+                                        <Label x:Name="UsagePercentLabel" Text="—%" FontSize="22" FontAttributes="Bold" TextColor="#18365D" HorizontalTextAlignment="Center" />
+                                        <ProgressBar x:Name="ParkingUsageProgress" Progress="0" ProgressColor="#2878F0" BackgroundColor="#DCE8F4" WidthRequest="94" HeightRequest="8" />
+                                        <Label Text="occupied" FontSize="9" TextColor="#6F829A" HorizontalTextAlignment="Center" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                        <Label x:Name="UsageAvailableDetailLabel" Text="Available  —" FontSize="11" TextColor="#41617F" />
+                                        <Label x:Name="UsageOccupiedDetailLabel" Text="Occupied  —" FontSize="11" TextColor="#41617F" />
+                                        <Label x:Name="UsageTotalDetailLabel" Text="Total slots  —" FontSize="11" TextColor="#41617F" />
+                                        <Label x:Name="ParkingUsageLabel" IsVisible="False" Text="Usage: —" FontSize="11" TextColor="#344054" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border
+                            x:Name="ReservationsSection"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="15"
+                            Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="9">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                                        <Label Text="Recent bookings" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                        <Label Text="Filter and manage reservations." FontSize="10" TextColor="#798AA0" />
+                                    </VerticalStackLayout>
+                                    <Picker
+                                        x:Name="ReservationStatusPicker"
+                                        Grid.Column="1"
+                                        Title="Filter"
+                                        FontSize="10"
+                                        SelectedIndexChanged="ReservationStatusPicker_SelectedIndexChanged">
+                                        <Picker.Items>
+                                            <x:String>All</x:String>
+                                            <x:String>Pending</x:String>
+                                            <x:String>Confirmed</x:String>
+                                            <x:String>Completed</x:String>
+                                            <x:String>Cancelled</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </Grid>
+                                <VerticalStackLayout x:Name="ReservationsList" Spacing="7" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <VerticalStackLayout x:Name="QuickActionsAndSlots" Grid.Row="1" Grid.Column="1" Spacing="12" Margin="0,0,0,12">
+                            <Border BackgroundColor="White" Stroke="#E1EAF4" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="15">
+                                <VerticalStackLayout Spacing="10">
+                                    <Label Text="Quick actions" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="7" RowSpacing="7">
+                                        <Button Text="Add parking area" ImageSource="nav_parking.svg" ContentLayout="Left,4" Clicked="AddLocationButton_Clicked" Style="{StaticResource QuickParkSecondaryButton}" FontSize="10" HeightRequest="44" CornerRadius="12" Padding="5,0" />
+                                        <Button Grid.Column="1" Text="Manage slots" ImageSource="nav_parking.svg" ContentLayout="Left,4" Clicked="AddSlotButton_Clicked" Style="{StaticResource QuickParkSecondaryButton}" FontSize="10" HeightRequest="44" CornerRadius="12" Padding="5,0" />
+                                        <Button Grid.Row="1" Text="View bookings" ImageSource="nav_bookings_dark.svg" ContentLayout="Left,4" CommandParameter="Bookings" Clicked="AdminNavigationButton_Clicked" FontSize="10" FontAttributes="Bold" TextColor="#6543B7" BackgroundColor="#F1EDFF" HeightRequest="44" CornerRadius="12" Padding="5,0" />
+                                        <Button Grid.Row="1" Grid.Column="1" Text="View reports" ImageSource="nav_history_dark.svg" ContentLayout="Left,4" CommandParameter="Reports" Clicked="AdminNavigationButton_Clicked" FontSize="10" FontAttributes="Bold" TextColor="#9A6414" BackgroundColor="#FFF5E4" HeightRequest="44" CornerRadius="12" Padding="5,0" />
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border
+                                x:Name="SlotsSection"
+                                BackgroundColor="White"
+                                Stroke="#E1EAF4"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 18"
+                                Padding="15">
+                                <VerticalStackLayout Spacing="9">
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                        <VerticalStackLayout Spacing="2">
+                                            <Label Text="Parking slots" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                            <Label Text="Availability and bay status." FontSize="10" TextColor="#798AA0" />
+                                        </VerticalStackLayout>
+                                        <Button Grid.Column="1" Text="+ Slot" Clicked="AddSlotButton_Clicked" FontSize="10" FontAttributes="Bold" TextColor="#1769D2" BackgroundColor="#EDF4FD" HeightRequest="33" CornerRadius="11" Padding="9,0" />
+                                    </Grid>
+                                    <VerticalStackLayout x:Name="SlotsList" Spacing="7" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <Border
+                            x:Name="ReportsSection"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="15"
+                            Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="10">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Reports &amp; revenue" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                    <Label Text="Operational counts from the latest records returned by Firebase (UTC)." FontSize="10" TextColor="#798AA0" />
+                                </VerticalStackLayout>
+                                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                                    <Border BackgroundColor="#F2F6FC" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="10,9">
+                                        <VerticalStackLayout Spacing="3">
+                                            <Label Text="This month" FontSize="9" TextColor="#71839A" />
+                                            <Label x:Name="MonthlyReservationsLabel" Text="—" FontSize="17" FontAttributes="Bold" TextColor="#203C61" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <Border Grid.Column="1" BackgroundColor="#F2F6FC" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="10,9">
+                                        <VerticalStackLayout Spacing="3">
+                                            <Label Text="Payments" FontSize="9" TextColor="#71839A" />
+                                            <Label x:Name="PaymentsMetricLabel" Text="—" FontSize="17" FontAttributes="Bold" TextColor="#203C61" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                    <Border Grid.Column="2" BackgroundColor="#F2F6FC" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="10,9">
+                                        <VerticalStackLayout Spacing="3">
+                                            <Label Text="Usage" FontSize="9" TextColor="#71839A" />
+                                            <Label x:Name="ReportUsageLabel" Text="—%" FontSize="17" FontAttributes="Bold" TextColor="#203C61" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </Grid>
+                                <Border BackgroundColor="#10294A" StrokeThickness="0" StrokeShape="RoundRectangle 13" Padding="12,10">
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label x:Name="PaymentAmountMetricLabel" Text="Revenue: —" FontSize="15" FontAttributes="Bold" TextColor="White" />
+                                        <Label x:Name="ReservationStatusReportLabel" FontSize="10" TextColor="#C5D7EC" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border
+                            x:Name="UsersSection"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="15"
+                            Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="8">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                    <Label Text="Users" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                    <Label x:Name="UsersLimitLabel" Grid.Column="1" FontSize="9" TextColor="#7B8490" VerticalOptions="Center" />
+                                </Grid>
+                                <SearchBar
+                                    x:Name="UsersSearchBar"
+                                    Placeholder="Search name, email, or user ID"
+                                    FontSize="12"
+                                    HeightRequest="42"
+                                    TextChanged="UsersSearchBar_TextChanged" />
+                                <Picker
+                                    x:Name="UserRolePicker"
+                                    Title="Filter by role"
+                                    SelectedIndexChanged="UserRolePicker_SelectedIndexChanged">
+                                    <Picker.Items>
+                                        <x:String>All roles</x:String>
+                                        <x:String>Administrator</x:String>
+                                        <x:String>Customer</x:String>
+                                    </Picker.Items>
+                                </Picker>
+                                <Picker
+                                    x:Name="UserAuthStatusPicker"
+                                    Title="Filter by Firebase Authentication status"
+                                    SelectedIndexChanged="UserRolePicker_SelectedIndexChanged">
+                                    <Picker.Items>
+                                        <x:String>All account states</x:String>
+                                        <x:String>Active</x:String>
+                                        <x:String>Disabled</x:String>
+                                        <x:String>Not verified</x:String>
+                                        <x:String>Missing from Firebase Authentication</x:String>
+                                    </Picker.Items>
+                                </Picker>
+                                <Label
+                                    x:Name="UsersDirectoryStatusLabel"
+                                    FontSize="11"
+                                    TextColor="#725113" />
+                                <VerticalStackLayout x:Name="UsersList" Spacing="7" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border
+                            x:Name="PaymentsSection"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="15"
+                            Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Payments &amp; transactions" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                <VerticalStackLayout x:Name="PaymentsList" Spacing="7" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <VerticalStackLayout x:Name="SettingsAndAnnouncements" Grid.Row="3" Grid.Column="1" Spacing="12" Margin="0,0,0,12">
+                            <Border
+                                x:Name="SettingsSection"
+                                BackgroundColor="White"
+                                Stroke="#E1EAF4"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 18"
+                                Padding="15">
+                                <VerticalStackLayout Spacing="9">
+                                    <Label Text="Administrator settings" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                    <Label Text="Change your account password." FontSize="10" TextColor="#798AA0" />
+                                    <Button
+                                        x:Name="ChangeAdminPasswordButton"
+                                        Text="Change password"
+                                        Clicked="ChangeAdminPasswordButton_Clicked"
+                                        FontSize="10"
+                                        FontAttributes="Bold"
+                                        TextColor="#1769D2"
+                                        BackgroundColor="#EDF4FD"
+                                        HeightRequest="38"
+                                        CornerRadius="12" />
+                                    <VerticalStackLayout x:Name="AdminPasswordForm" IsVisible="False" Spacing="8">
+                                        <Entry x:Name="AdminCurrentPasswordEntry" Placeholder="Current password" IsPassword="True" MaxLength="128" />
+                                        <Entry x:Name="AdminNewPasswordEntry" Placeholder="New password (at least 6 characters)" IsPassword="True" MaxLength="128" />
+                                        <Entry x:Name="AdminConfirmPasswordEntry" Placeholder="Confirm new password" IsPassword="True" MaxLength="128" />
+                                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                            <Button Text="Cancel" HeightRequest="38" CornerRadius="12" Clicked="CancelAdminPasswordButton_Clicked" />
+                                            <Button Grid.Column="1" Text="Update password" HeightRequest="38" CornerRadius="12" BackgroundColor="#1769D2" TextColor="White" Clicked="SaveAdminPasswordButton_Clicked" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border
+                                x:Name="AnnouncementsSection"
+                                BackgroundColor="White"
+                                Stroke="#E1EAF4"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 18"
+                                Padding="15">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="Announcements" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                    <Label Text="Publish an in-app message for signed-in users. This does not send a push notification." FontSize="10" TextColor="#798AA0" />
+                                    <Button Text="Send announcement" HorizontalOptions="Start" HeightRequest="38" FontSize="10" FontAttributes="Bold" TextColor="White" BackgroundColor="#1769D2" Padding="12,0" CornerRadius="12" Clicked="SendNotificationButton_Clicked" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label Text="QuickPark admin · reports are based on the available Firebase records." FontSize="9" TextColor="#8291A5" HorizontalTextAlignment="Center" Margin="0,2,0,8" />
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <ActivityIndicator
+                x:Name="LoadingIndicator"
+                Grid.RowSpan="2"
+                IsVisible="False"
+                IsRunning="False"
+                Color="#1769D2"
+                BackgroundColor="#66F3F6FA"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+        </Grid>
+    </Grid>
+</ContentPage>

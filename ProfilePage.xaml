@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuickPark.ProfilePage"
+             Title="Profile"
+             BackgroundColor="#090B0F"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="Auto,*">
+        <Grid Grid.Row="0" Padding="20,12,20,8" ColumnDefinitions="44,*,44">
+            <Button x:Name="BackButton"
+                    Grid.Column="0"
+                    Text="‹"
+                    FontSize="34"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    Padding="0"
+                    HeightRequest="44"
+                    WidthRequest="44"
+                    Clicked="BackButton_Clicked"
+                    SemanticProperties.Description="Go back" />
+            <Label Grid.Column="1"
+                   Text="MY PROFILE"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   CharacterSpacing="2"
+                   TextColor="#F5F5F6"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+            <Border Grid.Column="2"
+                    WidthRequest="36"
+                    HeightRequest="36"
+                    Stroke="#343B47"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 13"
+                    BackgroundColor="#171B22"
+                    Padding="4"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center">
+                <Image Source="quickpark_logo.svg"
+                       Aspect="AspectFit"
+                       SemanticProperties.Description="QuickPark logo" />
+            </Border>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,8,20,30" Spacing="20">
+                <Border Stroke="#252A32"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 22"
+                        Padding="0"
+                        HeightRequest="154">
+                    <Grid>
+                        <Image Source="profile_garage_banner.png"
+                               Aspect="AspectFill"
+                               Opacity="0.8" />
+                        <BoxView Color="#90090B0F" />
+                        <VerticalStackLayout Padding="20"
+                                             Spacing="6"
+                                             VerticalOptions="End">
+                            <Label Text="YOUR JOURNEY, PARKED RIGHT."
+                                   FontSize="11"
+                                   FontAttributes="Bold"
+                                   CharacterSpacing="1.4"
+                                   TextColor="#F5F5F6" />
+                            <Label Text="QUICKPARK MEMBER"
+                                   FontSize="10"
+                                   CharacterSpacing="2"
+                                   TextColor="#C2C7D0" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Grid ColumnDefinitions="78,*,44" ColumnSpacing="12">
+                    <Grid Grid.Column="0"
+                          WidthRequest="76"
+                          HeightRequest="76"
+                          VerticalOptions="Center">
+                        <Border WidthRequest="72"
+                                HeightRequest="72"
+                                Stroke="#F2A900"
+                                StrokeThickness="2"
+                                StrokeShape="RoundRectangle 36"
+                                BackgroundColor="#20242B"
+                                Padding="0"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center">
+                            <Grid>
+                                <Label x:Name="ProfileInitialLabel"
+                                       Text="Q"
+                                       FontSize="29"
+                                       FontAttributes="Bold"
+                                       TextColor="#F2A900"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                                <Image x:Name="ProfilePhotoImage"
+                                       IsVisible="False"
+                                       Aspect="AspectFill" />
+                            </Grid>
+                        </Border>
+                        <Button x:Name="ChangePhotoButton"
+                                Text="+"
+                                FontSize="17"
+                                FontAttributes="Bold"
+                                TextColor="#111318"
+                                BackgroundColor="#F2A900"
+                                WidthRequest="27"
+                                HeightRequest="27"
+                                Padding="0"
+                                CornerRadius="14"
+                                BorderColor="#090B0F"
+                                BorderWidth="2"
+                                HorizontalOptions="End"
+                                VerticalOptions="End"
+                                Clicked="ChangePhotoButton_Clicked"
+                                SemanticProperties.Description="Choose a profile photo" />
+                    </Grid>
+                    <VerticalStackLayout Grid.Column="1"
+                                         Spacing="4"
+                                         VerticalOptions="Center">
+                        <Label x:Name="DisplayNameLabel"
+                               Text="QuickPark Driver"
+                               FontSize="21"
+                               FontAttributes="Bold"
+                               TextColor="#F5F5F6"
+                               LineBreakMode="TailTruncation" />
+                        <Label x:Name="EmailLabel"
+                               Text="Email unavailable"
+                               FontSize="13"
+                               TextColor="#A7ADB8"
+                               LineBreakMode="TailTruncation" />
+                        <Border StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                BackgroundColor="#252018"
+                                Padding="9,4"
+                                HorizontalOptions="Start">
+                            <Label Text="QUICKPARK USER"
+                                   FontSize="9"
+                                   FontAttributes="Bold"
+                                   CharacterSpacing="1"
+                                   TextColor="#F2A900" />
+                        </Border>
+                    </VerticalStackLayout>
+                    <Button x:Name="EditProfileButton"
+                            Grid.Column="2"
+                            Text="Edit"
+                            FontSize="11"
+                            FontAttributes="Bold"
+                            TextColor="#F2A900"
+                            BackgroundColor="#1D2026"
+                            CornerRadius="14"
+                            HeightRequest="40"
+                            WidthRequest="48"
+                            Padding="0"
+                            VerticalOptions="Center"
+                            Clicked="EditProfileButton_Clicked"
+                            SemanticProperties.Description="Edit profile information" />
+                </Grid>
+
+                <Label x:Name="StatusLabel"
+                       IsVisible="False"
+                       FontSize="12"
+                       TextColor="#F2A900"
+                       LineBreakMode="WordWrap" />
+
+                <Border x:Name="EditProfileForm"
+                        IsVisible="False"
+                        Stroke="#343B47"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="#12151B"
+                        Padding="14">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Edit profile information"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               TextColor="#F5F5F6" />
+                        <Entry x:Name="DisplayNameEntry"
+                               Placeholder="Your display name"
+                               MaxLength="60"
+                               ReturnType="Done"
+                               Completed="DisplayNameEntry_Completed"
+                               TextColor="#F5F5F6"
+                               PlaceholderColor="#858C98"
+                               BackgroundColor="#1D2026" />
+                        <Label Text="Phone number"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="#C2C7D0" />
+                        <Border Stroke="#343B47"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 12"
+                                BackgroundColor="#1D2026"
+                                Padding="12,2">
+                            <Picker x:Name="PhoneCountryPicker"
+                                    Title="Select country or region"
+                                    TextColor="#F5F5F6"
+                                    TitleColor="#858C98"
+                                    BackgroundColor="Transparent"
+                                    SelectedIndexChanged="PhoneCountryPicker_SelectedIndexChanged"
+                                    SemanticProperties.Description="Phone country and calling code" />
+                        </Border>
+                        <Border Stroke="#343B47"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 12"
+                                BackgroundColor="#1D2026"
+                                Padding="12,0">
+                            <Entry x:Name="PhoneNumberEntry"
+                                   Placeholder="Mobile number"
+                                   MaxLength="20"
+                                   Keyboard="Telephone"
+                                   ReturnType="Done"
+                                   TextColor="#F5F5F6"
+                                   PlaceholderColor="#858C98"
+                                   BackgroundColor="Transparent"
+                                   SemanticProperties.Description="Phone number without country calling code" />
+                        </Border>
+                        <Label Text="Choose your country first. QuickPark saves the number with its country calling code."
+                               FontSize="10"
+                               TextColor="#858C98"
+                               LineBreakMode="WordWrap" />
+                        <Entry x:Name="EmailAddressEntry"
+                               Placeholder="Email address"
+                               MaxLength="254"
+                               Keyboard="Email"
+                               ReturnType="Next"
+                               TextColor="#F5F5F6"
+                               PlaceholderColor="#858C98"
+                               BackgroundColor="#1D2026"
+                               TextChanged="EmailAddressEntry_TextChanged"
+                               SemanticProperties.Description="Email address" />
+                        <Label x:Name="EmailChangeHintLabel"
+                               Text="Changing your email requires your current password and email verification."
+                               FontSize="11"
+                               TextColor="#A7ADB8"
+                               IsVisible="False"
+                               LineBreakMode="WordWrap" />
+                        <Entry x:Name="EmailChangePasswordEntry"
+                               Placeholder="Current password to verify email change"
+                               IsPassword="True"
+                               ReturnType="Done"
+                               TextColor="#F5F5F6"
+                               PlaceholderColor="#858C98"
+                               BackgroundColor="#1D2026"
+                               IsVisible="False"
+                               SemanticProperties.Description="Current password to confirm email change" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <Button x:Name="SaveDisplayNameButton"
+                                    Text="Save profile"
+                                    TextColor="#111318"
+                                    BackgroundColor="#F2A900"
+                                    CornerRadius="12"
+                                    Clicked="SaveDisplayNameButton_Clicked" />
+                            <Button Grid.Column="1"
+                                    Text="Cancel"
+                                    TextColor="#F5F5F6"
+                                    BackgroundColor="#252A32"
+                                    CornerRadius="12"
+                                    Clicked="CancelEditProfileButton_Clicked" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                    <Border Grid.Column="0"
+                            Stroke="#252A32"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="#12151B"
+                            Padding="8,14">
+                        <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                            <Label x:Name="TotalBookingsLabel"
+                                   Text="—"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   TextColor="#F2A900"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="BOOKINGS"
+                                   FontSize="9"
+                                   FontAttributes="Bold"
+                                   CharacterSpacing="1"
+                                   TextColor="#A7ADB8"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1"
+                            Stroke="#252A32"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="#12151B"
+                            Padding="8,14">
+                        <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                            <Label x:Name="ActiveBookingsLabel"
+                                   Text="—"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   TextColor="#F2A900"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="ACTIVE"
+                                   FontSize="9"
+                                   FontAttributes="Bold"
+                                   CharacterSpacing="1"
+                                   TextColor="#A7ADB8"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="2"
+                            Stroke="#252A32"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="#12151B"
+                            Padding="8,14">
+                        <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                            <Label x:Name="CompletedBookingsLabel"
+                                   Text="—"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   TextColor="#F2A900"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="COMPLETED"
+                                   FontSize="9"
+                                   FontAttributes="Bold"
+                                   CharacterSpacing="1"
+                                   TextColor="#A7ADB8"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Label x:Name="BookingSummaryStatusLabel"
+                       IsVisible="False"
+                       FontSize="12"
+                       TextColor="#F08A83"
+                       LineBreakMode="WordWrap" />
+
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="PERSONAL INFORMATION"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           CharacterSpacing="1.5"
+                           TextColor="#A7ADB8"
+                           Margin="2,0,0,0" />
+                    <Border Stroke="#252A32"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            BackgroundColor="#12151B"
+                            Padding="0">
+                        <VerticalStackLayout Spacing="0">
+                            <Grid Padding="16,14" ColumnDefinitions="36,*,20" ColumnSpacing="10">
+                                <Border Grid.Column="0"
+                                        WidthRequest="34"
+                                        HeightRequest="34"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 11"
+                                        BackgroundColor="#252018"
+                                        VerticalOptions="Center">
+                                    <Label x:Name="PersonalInfoInitialLabel"
+                                           Text="Q"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="#F2A900"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                    <Label Text="Display name" FontSize="11" TextColor="#9299A5" />
+                                    <Label x:DataType="Label"
+                                           Text="{Binding Source={x:Reference DisplayNameLabel}, Path=Text}"
+                                           FontSize="14"
+                                           TextColor="#F5F5F6"
+                                           LineBreakMode="TailTruncation" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="2"
+                                       Text="›"
+                                       FontSize="22"
+                                       TextColor="#717987"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="EditProfileButton_Clicked" />
+                                </Grid.GestureRecognizers>
+                                <SemanticProperties.Description>
+                                    Edit your display name
+                                </SemanticProperties.Description>
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="#252A32" Margin="16,0" />
+                            <Grid Padding="16,14" ColumnDefinitions="36,*" ColumnSpacing="10">
+                                <Border Grid.Column="0"
+                                        WidthRequest="34"
+                                        HeightRequest="34"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 11"
+                                        BackgroundColor="#1C2632"
+                                        VerticalOptions="Center">
+                                    <Label Text="@"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#8FC5FF"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                    <Label Text="Email address" FontSize="11" TextColor="#9299A5" />
+                                    <Label x:DataType="Label"
+                                           Text="{Binding Source={x:Reference EmailLabel}, Path=Text}"
+                                           FontSize="14"
+                                           TextColor="#F5F5F6"
+                                           LineBreakMode="TailTruncation" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="#252A32" Margin="16,0" />
+                            <Grid Padding="16,14" ColumnDefinitions="36,*" ColumnSpacing="10">
+                                <Border Grid.Column="0"
+                                        WidthRequest="34"
+                                        HeightRequest="34"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 11"
+                                        BackgroundColor="#1D2520"
+                                        VerticalOptions="Center">
+                                    <Label Text="☎"
+                                           FontSize="15"
+                                           TextColor="#8FE0B8"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                    <Label Text="Phone number" FontSize="11" TextColor="#9299A5" />
+                                    <Label x:Name="PhoneNumberLabel"
+                                           Text="Not added"
+                                           FontSize="14"
+                                           TextColor="#F5F5F6"
+                                           LineBreakMode="TailTruncation" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="ACCOUNT SETTINGS"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           CharacterSpacing="1.5"
+                           TextColor="#A7ADB8"
+                           Margin="2,0,0,0" />
+                    <Border Stroke="#252A32"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            BackgroundColor="#12151B"
+                            Padding="0">
+                        <VerticalStackLayout Spacing="0">
+                            <Grid Padding="16,11" ColumnDefinitions="38,*,20" ColumnSpacing="10" MinimumHeightRequest="58">
+                                <Border WidthRequest="34" HeightRequest="34" StrokeThickness="0" StrokeShape="RoundRectangle 11" BackgroundColor="#1C2632" VerticalOptions="Center">
+                                    <Label Text="B" FontSize="14" FontAttributes="Bold" TextColor="#8FC5FF" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                </Border>
+                                <Label Grid.Column="1" Text="Booking history" FontSize="14" TextColor="#F5F5F6" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="›" FontSize="22" TextColor="#717987" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="BookingHistoryButton_Clicked" />
+                                </Grid.GestureRecognizers>
+                                <SemanticProperties.Description>Open booking history</SemanticProperties.Description>
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="#252A32" Margin="16,0" />
+                            <Grid Padding="16,11" ColumnDefinitions="38,*,20" ColumnSpacing="10" MinimumHeightRequest="58">
+                                <Border WidthRequest="34" HeightRequest="34" StrokeThickness="0" StrokeShape="RoundRectangle 11" BackgroundColor="#252018" VerticalOptions="Center">
+                                    <Label Text="N" FontSize="14" FontAttributes="Bold" TextColor="#F2A900" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                </Border>
+                                <Label Grid.Column="1" Text="Notifications" FontSize="14" TextColor="#F5F5F6" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="›" FontSize="22" TextColor="#717987" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="NotificationsButton_Clicked" />
+                                </Grid.GestureRecognizers>
+                                <SemanticProperties.Description>Open notifications</SemanticProperties.Description>
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="#252A32" Margin="16,0" />
+                            <Grid x:Name="ChangePasswordButton" Padding="16,11" ColumnDefinitions="38,*,20" ColumnSpacing="10" MinimumHeightRequest="58">
+                                <Border WidthRequest="34" HeightRequest="34" StrokeThickness="0" StrokeShape="RoundRectangle 11" BackgroundColor="#1C2632" VerticalOptions="Center">
+                                    <Label Text="P" FontSize="14" FontAttributes="Bold" TextColor="#8FC5FF" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                </Border>
+                                <Label Grid.Column="1" Text="Change password" FontSize="14" TextColor="#F5F5F6" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="›" FontSize="22" TextColor="#717987" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ChangePasswordButton_Clicked" />
+                                </Grid.GestureRecognizers>
+                                <SemanticProperties.Description>Change your account password</SemanticProperties.Description>
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="#252A32" Margin="16,0" />
+                            <Grid Padding="16,11" ColumnDefinitions="38,*,20" ColumnSpacing="10" MinimumHeightRequest="58">
+                                <Border WidthRequest="34" HeightRequest="34" StrokeThickness="0" StrokeShape="RoundRectangle 11" BackgroundColor="#1D2520" VerticalOptions="Center">
+                                    <Label Text="?" FontSize="15" FontAttributes="Bold" TextColor="#8FE0B8" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                </Border>
+                                <Label Grid.Column="1" Text="Help &amp; support" FontSize="14" TextColor="#F5F5F6" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="›" FontSize="22" TextColor="#717987" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="SupportButton_Clicked" />
+                                </Grid.GestureRecognizers>
+                                <SemanticProperties.Description>Contact QuickPark support</SemanticProperties.Description>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <Border x:Name="ChangePasswordForm"
+                        IsVisible="False"
+                        Stroke="#252A32"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        BackgroundColor="#12151B"
+                        Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Change password"
+                               FontSize="17"
+                               FontAttributes="Bold"
+                               TextColor="#F5F5F6" />
+                        <Entry x:Name="CurrentPasswordEntry"
+                               Placeholder="Current password"
+                               IsPassword="True"
+                               TextColor="#F5F5F6"
+                               PlaceholderColor="#858C98"
+                               BackgroundColor="#1D2026" />
+                        <Entry x:Name="NewPasswordEntry"
+                               Placeholder="New password"
+                               IsPassword="True"
+                               TextColor="#F5F5F6"
+                               PlaceholderColor="#858C98"
+                               BackgroundColor="#1D2026" />
+                        <Entry x:Name="ConfirmPasswordEntry"
+                               Placeholder="Confirm new password"
+                               IsPassword="True"
+                               TextColor="#F5F5F6"
+                               PlaceholderColor="#858C98"
+                               BackgroundColor="#1D2026" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <Button x:Name="SavePasswordChangeButton"
+                                    Grid.Column="0"
+                                    Text="Save password"
+                                    TextColor="#111318"
+                                    BackgroundColor="#F2A900"
+                                    CornerRadius="12"
+                                    Clicked="SavePasswordChangeButton_Clicked" />
+                            <Button x:Name="CancelPasswordChangeButton"
+                                    Grid.Column="1"
+                                    Text="Cancel"
+                                    TextColor="#F5F5F6"
+                                    BackgroundColor="#252A32"
+                                    CornerRadius="12"
+                                    Clicked="CancelPasswordChangeButton_Clicked" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button x:Name="LogoutButton"
+                        Text="Log out"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        TextColor="#F08A83"
+                        BackgroundColor="#21191B"
+                        CornerRadius="15"
+                        HeightRequest="52"
+                        Clicked="LogoutButton_Clicked" />
+                <Label Text="QUICKPARK • YOUR PARKING, SIMPLIFIED"
+                       FontSize="9"
+                       CharacterSpacing="1.5"
+                       TextColor="#626A76"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

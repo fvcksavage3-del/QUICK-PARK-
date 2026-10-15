@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="QuickPark.NotificationsPage"
+    Title="Notifications"
+    BackgroundColor="{StaticResource QuickParkPage}">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20">
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+            <Button
+                Text="‹"
+                FontSize="26"
+                TextColor="#1A2430"
+                BackgroundColor="White"
+                WidthRequest="44"
+                HeightRequest="44"
+                CornerRadius="22"
+                Padding="0"
+                Clicked="BackButton_Clicked"
+                SemanticProperties.Description="Back to dashboard" />
+            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                <Label Text="Notifications" FontSize="22" FontAttributes="Bold" TextColor="#151B24" />
+                <Label Text="Booking updates and parking announcements" FontSize="12" TextColor="#7B8490" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never" Margin="0,20,0,0">
+            <VerticalStackLayout Spacing="10">
+                <Label x:Name="RemoteStatusLabel" IsVisible="False" FontSize="11" TextColor="#C43B3B" />
+                <VerticalStackLayout x:Name="NotificationList" Spacing="12" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Label
+            Grid.Row="2"
+            Text="In-app only. Notifications are not sent while the app is closed."
+            FontSize="10"
+            TextColor="#929BA6"
+            HorizontalTextAlignment="Center"
+            Margin="0,12,0,4" />
+    </Grid>
+</ContentPage>

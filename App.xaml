@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="QuickPark.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="QuickParkNavy">#102B4C</Color>
+            <Color x:Key="QuickParkNavyDeep">#0B1D38</Color>
+            <Color x:Key="QuickParkBlue">#1769D2</Color>
+            <Color x:Key="QuickParkBlueLight">#EAF2FF</Color>
+            <Color x:Key="QuickParkPage">#F3F6FA</Color>
+            <Color x:Key="QuickParkSurface">#FFFFFF</Color>
+            <Color x:Key="QuickParkBorder">#DFE7F0</Color>
+            <Color x:Key="QuickParkText">#172E4E</Color>
+            <Color x:Key="QuickParkMuted">#66788F</Color>
+            <Color x:Key="QuickParkSuccess">#23834B</Color>
+            <Color x:Key="QuickParkWarning">#9A6500</Color>
+            <Color x:Key="QuickParkDanger">#B42318</Color>
+            <RoundRectangle x:Key="QuickParkCardShape" CornerRadius="16" />
+
+            <Style x:Key="QuickParkPrimaryButton" TargetType="Button">
+                <Setter Property="MinimumHeightRequest" Value="46" />
+                <Setter Property="CornerRadius" Value="14" />
+                <Setter Property="BackgroundColor" Value="{StaticResource QuickParkBlue}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Padding" Value="16,0" />
+            </Style>
+
+            <Style x:Key="QuickParkSecondaryButton" TargetType="Button">
+                <Setter Property="MinimumHeightRequest" Value="44" />
+                <Setter Property="CornerRadius" Value="14" />
+                <Setter Property="BackgroundColor" Value="{StaticResource QuickParkBlueLight}" />
+                <Setter Property="TextColor" Value="{StaticResource QuickParkNavy}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Padding" Value="14,0" />
+            </Style>
+
+            <Style x:Key="QuickParkDangerButton" TargetType="Button">
+                <Setter Property="MinimumHeightRequest" Value="44" />
+                <Setter Property="CornerRadius" Value="14" />
+                <Setter Property="BackgroundColor" Value="#FFF1F0" />
+                <Setter Property="TextColor" Value="{StaticResource QuickParkDanger}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Padding" Value="14,0" />
+            </Style>
+
+            <Style TargetType="Border">
+                <Setter Property="Stroke" Value="{StaticResource QuickParkBorder}" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="BackgroundColor" Value="{StaticResource QuickParkSurface}" />
+                <Setter Property="StrokeShape" Value="{StaticResource QuickParkCardShape}" />
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="TextColor" Value="{StaticResource QuickParkText}" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource QuickParkMuted}" />
+                <Setter Property="BackgroundColor" Value="#F7F9FC" />
+                <Setter Property="MinimumHeightRequest" Value="48" />
+            </Style>
+
+            <Style TargetType="Picker">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="TextColor" Value="{StaticResource QuickParkText}" />
+                <Setter Property="MinimumHeightRequest" Value="48" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

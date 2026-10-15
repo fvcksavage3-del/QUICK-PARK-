@@ -1,0 +1,222 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn() && request.auth.token.admin == true;
+    }
+
+    function accountIsActive() {
+      return signedIn() &&
+        (!exists(/databases/$(database)/documents/accountStatus/$(request.auth.uid)) ||
+          get(/databases/$(database)/documents/accountStatus/$(request.auth.uid)).data.disabled != true);
+    }
+
+    function isRecent(candidateTime) {
+      return candidateTime is timestamp &&
+        candidateTime > request.time - duration.value(5, 'm') &&
+        candidateTime < request.time + duration.value(5, 'm');
+    }
+
+    function reservationPath(reservationId) {
+      return /databases/$(database)/documents/reservations/$(reservationId);
+    }
+
+    function slotPath(slotId) {
+      return /databases/$(database)/documents/slots/$(slotId);
+    }
+
+    function locationPath(locationId) {
+      return /databases/$(database)/documents/locations/$(locationId);
+    }
+
+    function isValidCustomerReservation(reservationId) {
+      let reservation = request.resource.data;
+      let location = get(locationPath(reservation.locationId)).data;
+      let slot = getAfter(slotPath(reservation.slotId)).data;
+      let payment = getAfter(
+        /databases/$(database)/documents/payments/$(reservation.paymentId)
+      ).data;
+      return accountIsActive() &&
+        reservation.userId == request.auth.uid &&
+        reservation.status == 'Pending' &&
+        reservation.durationHours == 1 &&
+        reservation.startTime is timestamp &&
+        reservation.startTime > request.time - duration.value(1, 'm') &&
+        reservation.startTime < request.time + duration.value(30, 'd') &&
+        reservation.endTime is timestamp &&
+        reservation.endTime == reservation.startTime + duration.value(1, 'h') &&
+        reservation.fee is number &&
+        reservation.fee >= 0 &&
+        isRecent(reservation.createdAt) &&
+        location.isActive == true &&
+        reservation.locationName == location.name &&
+        reservation.fee == location.feePerHour &&
+        slot.locationId == reservation.locationId &&
+        slot.label == reservation.slotLabel &&
+        slot.status == 'Reserved' &&
+        slot.activeReservationId == reservationId &&
+        payment.reservationId == reservationId &&
+        payment.userId == request.auth.uid &&
+        payment.amount == reservation.fee &&
+        payment.status == 'Not processed' &&
+        isRecent(payment.createdAt) &&
+        payment.method in ['Pay at parking facility', 'GCash (preview only)', 'Card (preview only)'] &&
+        payment.currency == 'PHP';
+    }
+
+    match /locations/{locationId} {
+      allow read: if isAdmin() || accountIsActive();
+      allow write: if isAdmin();
+    }
+
+    match /userProfiles/{userId} {
+      allow read: if isAdmin() || (accountIsActive() && request.auth.uid == userId);
+      allow create: if accountIsActive() &&
+        request.auth.uid == userId &&
+        request.resource.data.keys().hasAll(['email', 'displayName', 'role', 'createdAt', 'updatedAt']) &&
+        request.resource.data.keys().hasOnly([
+          'email', 'displayName', 'phoneNumber', 'role', 'createdAt', 'updatedAt'
+        ]) &&
+        request.resource.data.email == request.auth.token.email &&
+        request.resource.data.displayName is string &&
+        request.resource.data.displayName.size() > 0 &&
+        request.resource.data.displayName.size() <= 60 &&
+        (!('phoneNumber' in request.resource.data) ||
+          (request.resource.data.phoneNumber is string &&
+            request.resource.data.phoneNumber.size() <= 30)) &&
+        request.resource.data.role == 'user' &&
+        isRecent(request.resource.data.createdAt) &&
+        isRecent(request.resource.data.updatedAt);
+      allow update: if accountIsActive() &&
+        request.auth.uid == userId &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'email', 'displayName', 'phoneNumber', 'updatedAt'
+        ]) &&
+        request.resource.data.email == request.auth.token.email &&
+        request.resource.data.displayName is string &&
+        request.resource.data.displayName.size() > 0 &&
+        request.resource.data.displayName.size() <= 60 &&
+        (!('phoneNumber' in request.resource.data) ||
+          (request.resource.data.phoneNumber is string &&
+            request.resource.data.phoneNumber.size() <= 30)) &&
+        request.resource.data.role == resource.data.role &&
+        request.resource.data.createdAt == resource.data.createdAt &&
+        isRecent(request.resource.data.updatedAt);
+      allow delete: if false;
+    }
+
+    match /slots/{slotId} {
+      allow read: if isAdmin() ||
+        (accountIsActive() && resource.data.status == 'Available') ||
+        (accountIsActive() && resource.data.status == 'Reserved' &&
+          resource.data.activeReservationId is string &&
+          get(reservationPath(resource.data.activeReservationId)).data.userId == request.auth.uid);
+
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() ||
+        (accountIsActive() &&
+          resource.data.status == 'Available' &&
+          request.resource.data.status == 'Reserved' &&
+          request.resource.data.locationId == resource.data.locationId &&
+          request.resource.data.label == resource.data.label &&
+          request.resource.data.activeReservationId is string &&
+          isRecent(request.resource.data.updatedAt) &&
+          getAfter(reservationPath(request.resource.data.activeReservationId)).data.userId == request.auth.uid &&
+          getAfter(reservationPath(request.resource.data.activeReservationId)).data.slotId == slotId &&
+          getAfter(reservationPath(request.resource.data.activeReservationId)).data.status == 'Pending') ||
+        (accountIsActive() &&
+          resource.data.status == 'Reserved' &&
+          resource.data.activeReservationId is string &&
+          get(reservationPath(resource.data.activeReservationId)).data.userId == request.auth.uid &&
+          get(reservationPath(resource.data.activeReservationId)).data.status in ['Pending', 'Confirmed'] &&
+          getAfter(reservationPath(resource.data.activeReservationId)).data.status == 'Cancelled' &&
+          request.resource.data.status == 'Available' &&
+          !('activeReservationId' in request.resource.data) &&
+          isRecent(request.resource.data.updatedAt));
+    }
+
+    match /reservations/{reservationId} {
+      allow read: if isAdmin() ||
+        (accountIsActive() && resource.data.userId == request.auth.uid);
+
+      allow create: if isAdmin() ||
+        (request.resource.data.keys().hasAll([
+            'userId', 'locationId', 'locationName', 'slotId', 'slotLabel',
+            'startTime', 'endTime', 'durationHours', 'fee', 'status', 'paymentId', 'createdAt'
+          ]) &&
+          request.resource.data.keys().hasOnly([
+            'userId', 'locationId', 'locationName', 'slotId', 'slotLabel',
+            'startTime', 'endTime', 'durationHours', 'fee', 'status', 'paymentId', 'createdAt'
+          ]) &&
+          isValidCustomerReservation(reservationId));
+      allow update: if isAdmin() ||
+        (accountIsActive() &&
+          resource.data.userId == request.auth.uid &&
+          resource.data.status in ['Pending', 'Confirmed'] &&
+          resource.data.startTime > request.time &&
+          request.resource.data.status == 'Cancelled' &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'cancelledAt']) &&
+          isRecent(request.resource.data.cancelledAt) &&
+          getAfter(slotPath(resource.data.slotId)).data.status == 'Available');
+      allow delete: if isAdmin();
+    }
+
+    match /payments/{paymentId} {
+      allow read: if isAdmin() ||
+        (accountIsActive() && resource.data.userId == request.auth.uid);
+
+      allow create: if isAdmin() ||
+        (accountIsActive() &&
+          request.resource.data.userId == request.auth.uid &&
+          request.resource.data.currency == 'PHP' &&
+          request.resource.data.status == 'Not processed' &&
+          request.resource.data.amount is number &&
+          request.resource.data.amount >= 0 &&
+          request.resource.data.createdAt is timestamp &&
+          getAfter(reservationPath(request.resource.data.reservationId)).data.userId == request.auth.uid &&
+          getAfter(reservationPath(request.resource.data.reservationId)).data.paymentId == paymentId &&
+          getAfter(reservationPath(request.resource.data.reservationId)).data.status == 'Pending');
+      allow update: if isAdmin() ||
+        (accountIsActive() &&
+          resource.data.userId == request.auth.uid &&
+          resource.data.status == 'Not processed' &&
+          request.resource.data.status == 'Cancelled — not processed' &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']) &&
+          isRecent(request.resource.data.updatedAt) &&
+          getAfter(reservationPath(resource.data.reservationId)).data.status == 'Cancelled');
+      allow delete: if isAdmin();
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if isAdmin() ||
+        (accountIsActive() && resource.data.userId in [request.auth.uid, '*']);
+
+      allow create: if isAdmin() ||
+        (accountIsActive() &&
+          request.resource.data.userId == request.auth.uid &&
+          request.resource.data.type == 'Booking' &&
+          request.resource.data.read == false &&
+          isRecent(request.resource.data.createdAt));
+
+      allow update: if isAdmin() ||
+        (accountIsActive() &&
+          resource.data.userId == request.auth.uid &&
+          resource.data.read == false &&
+          request.resource.data.read == true &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']));
+      allow delete: if isAdmin();
+    }
+
+    match /accountStatus/{userId} {
+      allow read, write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

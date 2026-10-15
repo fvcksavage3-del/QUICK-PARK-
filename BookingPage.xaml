@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="QuickPark.BookingPage"
+    Title="Book a place"
+    BackgroundColor="{StaticResource QuickParkPage}">
+
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="22,20" Spacing="18">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Button
+                        Text="‹"
+                        FontSize="26"
+                        TextColor="#1A2430"
+                        BackgroundColor="White"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        CornerRadius="22"
+                        Padding="0"
+                        Clicked="BackButton_Clicked"
+                        SemanticProperties.Description="Back to dashboard" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Book a place" FontSize="22" FontAttributes="Bold" TextColor="#151B24" />
+                        <Label Text="Choose your parking details" FontSize="12" TextColor="#7B8490" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 20" Padding="18">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="1. Select parking location" FontSize="15" FontAttributes="Bold" TextColor="#151B24" />
+                        <Picker
+                            x:Name="LocationPicker"
+                            Title="Choose a parking area"
+                            TextColor="#25364A"
+                            SelectedIndexChanged="Selection_Changed" />
+                        <Label
+                            x:Name="SelectedLocationAddressLabel"
+                            Text="Select a parking area to view its street address."
+                            FontSize="11"
+                            TextColor="#667085"
+                            LineBreakMode="WordWrap" />
+                        <Label x:Name="BookingStatusLabel" Text="Loading parking options…" FontSize="10" TextColor="#858E98" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 20" Padding="18">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="2. Select date and time" FontSize="15" FontAttributes="Bold" TextColor="#151B24" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="Date" FontSize="11" TextColor="#7B8490" />
+                                <DatePicker x:Name="BookingDatePicker" TextColor="#25364A" DateSelected="Selection_Changed" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <Label Text="Start time" FontSize="11" TextColor="#7B8490" />
+                                <TimePicker x:Name="BookingTimePicker" TextColor="#25364A" TimeSelected="Selection_Changed" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 20" Padding="18">
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="3. Select parking slot" FontSize="15" FontAttributes="Bold" TextColor="#151B24" />
+                            <Label Grid.Column="1" Text="One-hour booking" FontSize="10" TextColor="#7B8490" VerticalOptions="Center" />
+                        </Grid>
+                        <Picker
+                            x:Name="SlotPicker"
+                            Title="Choose an available slot"
+                            TextColor="#25364A"
+                            SelectedIndexChanged="Selection_Changed" />
+                        <Label x:Name="SlotAvailabilityLabel" Text="Select a location to view sample slots." FontSize="11" TextColor="#7B8490" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 20" Padding="18">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="4. Payment" FontSize="15" FontAttributes="Bold" TextColor="#151B24" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Parking fee" FontSize="12" TextColor="#7B8490" />
+                            <Label x:Name="ParkingFeeLabel" Grid.Column="1" Text="Select a location" FontSize="13" FontAttributes="Bold" TextColor="#151B24" />
+                        </Grid>
+                        <Label Text="Payment method" FontSize="11" TextColor="#7B8490" />
+                        <Picker
+                            x:Name="PaymentMethodPicker"
+                            Title="Choose a payment method"
+                            TextColor="#25364A"
+                            SelectedIndexChanged="Selection_Changed" />
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Label Text="Payment status" FontSize="11" TextColor="#7B8490" />
+                            <Label Grid.Column="1" Text="Not processed (preview)" FontSize="11" FontAttributes="Bold" TextColor="#9A6500" />
+                        </Grid>
+                        <Label Text="Online payments are not connected. GCash and card are preview-only; no payment details are collected." FontSize="10" TextColor="#667085" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="#EAF3FF" Stroke="#D6E7FF" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="16">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Reservation summary" FontSize="14" FontAttributes="Bold" TextColor="#151B24" />
+                        <Label x:Name="SummaryLocationLabel" Text="Parking location: Not selected" FontSize="12" TextColor="#344054" />
+                        <Label x:Name="SummaryDateTimeLabel" Text="Date and time: Not selected" FontSize="12" TextColor="#344054" />
+                        <Label Text="Duration: 1 hour" FontSize="12" TextColor="#344054" />
+                        <Label x:Name="SummarySlotLabel" Text="Parking slot: Not selected" FontSize="12" TextColor="#344054" />
+                        <Label x:Name="SummaryPaymentLabel" Text="Payment: Not selected" FontSize="12" TextColor="#344054" />
+                    </VerticalStackLayout>
+                </Border>
+                <Label
+                    x:Name="ReservationPrivacyLabel"
+                    Text="Your request is saved securely. Payment is not processed in the app."
+                    FontSize="11"
+                    TextColor="#7B8490"
+                    HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button
+            x:Name="ConfirmReservationButton"
+            Style="{StaticResource QuickParkPrimaryButton}"
+            Grid.Row="1"
+            Text="Request reservation"
+            Margin="20,10,20,20"
+            HeightRequest="50"
+            CornerRadius="25"
+            Clicked="ConfirmReservationButton_Clicked" />
+    </Grid>
+</ContentPage>

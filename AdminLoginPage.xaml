@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="QuickPark.AdminLoginPage"
+    Title="Admin sign in"
+    BackgroundColor="#06182E">
+
+    <Grid>
+        <Image
+            Source="login_garage_panorama.svg"
+            Aspect="AspectFill"
+            InputTransparent="True" />
+        <Image
+            Source="login_ambient_glow.svg"
+            Aspect="AspectFill"
+            Opacity="0.55"
+            InputTransparent="True" />
+        <BoxView Color="#9904162B" InputTransparent="True" />
+
+        <ScrollView VerticalOptions="Center" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout
+                MaximumWidthRequest="480"
+                Padding="22,28"
+                Spacing="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Button
+                    Text="‹   Back to user sign in"
+                    FontSize="13"
+                    FontAttributes="Bold"
+                    TextColor="#E4EEFA"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="Start"
+                    Padding="0,10"
+                    Margin="0,0,0,22"
+                    Clicked="BackButton_Clicked" />
+
+                <HorizontalStackLayout
+                    Spacing="11"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <Border
+                        WidthRequest="52"
+                        HeightRequest="52"
+                        BackgroundColor="#142D50"
+                        Stroke="#6EAFFF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 17">
+                        <Image
+                            Source="login_quickpark_logo.svg"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            Aspect="AspectFit"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+                        Text="QuickPark"
+                        FontSize="28"
+                        CharacterSpacing="-0.5"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <Border
+                    BackgroundColor="#281D8FFF"
+                    Stroke="#5978BFFF"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="12,7"
+                    HorizontalOptions="Center"
+                    Margin="0,18,0,14">
+                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                        <Image
+                            Source="admin_shield.svg"
+                            WidthRequest="17"
+                            HeightRequest="17"
+                            VerticalOptions="Center"
+                            SemanticProperties.Description="Secure administrator access" />
+                        <Border
+                            WidthRequest="7"
+                            HeightRequest="7"
+                            BackgroundColor="#66DDB0"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 4"
+                            VerticalOptions="Center" />
+                        <Label
+                            Text="SECURE ADMIN PORTAL"
+                            FontSize="10"
+                            CharacterSpacing="1.4"
+                            FontAttributes="Bold"
+                            TextColor="#E1EEFF"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Label
+                    Text="Welcome back."
+                    FontSize="32"
+                    CharacterSpacing="-0.8"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    HorizontalTextAlignment="Center" />
+                <Label
+                    Text="Sign in to manage your QuickPark network."
+                    FontSize="14"
+                    TextColor="#D1DDF0"
+                    HorizontalTextAlignment="Center"
+                    Margin="0,5,0,24" />
+
+                <Border
+                    BackgroundColor="#FAFCFF"
+                    Stroke="#C6D8EC"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 26"
+                    Padding="26,26">
+                    <VerticalStackLayout Spacing="0">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Margin="0,0,0,22">
+                            <Border
+                                WidthRequest="44"
+                                HeightRequest="44"
+                                BackgroundColor="#EAF3FF"
+                                Stroke="#D2E4FA"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 15"
+                                VerticalOptions="Center">
+                                <Image
+                                    Source="admin_shield.svg"
+                                    WidthRequest="25"
+                                    HeightRequest="25"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    SemanticProperties.Description="Administrator security" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                <Label
+                                    Text="Administrator sign in"
+                                    FontSize="20"
+                                    CharacterSpacing="-0.3"
+                                    FontAttributes="Bold"
+                                    TextColor="#102039" />
+                                <Label
+                                    Text="Use your dedicated administrator account."
+                                    FontSize="12"
+                                    TextColor="#6D7C91" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Label
+                            Text="EMAIL ADDRESS"
+                            FontSize="10"
+                            CharacterSpacing="1"
+                            FontAttributes="Bold"
+                            TextColor="#42546D"
+                            Margin="0,0,0,7" />
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="#D8E1EC"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 15"
+                            Padding="13,0"
+                            HeightRequest="54">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Image
+                                    Source="auth_email.svg"
+                                    WidthRequest="18"
+                                    HeightRequest="18"
+                                    VerticalOptions="Center"
+                                    SemanticProperties.Description="Email" />
+                                <Entry
+                                    x:Name="EmailEntry"
+                                    Grid.Column="1"
+                                    Placeholder="admin@example.com"
+                                    Keyboard="Email"
+                                    FontSize="14"
+                                    TextColor="#13243B"
+                                    PlaceholderColor="#8A98AA"
+                                    BackgroundColor="Transparent"
+                                    ReturnType="Next"
+                                    ClearButtonVisibility="WhileEditing"
+                                    SemanticProperties.Description="Administrator email address" />
+                            </Grid>
+                        </Border>
+
+                        <Label
+                            Text="PASSWORD"
+                            FontSize="10"
+                            CharacterSpacing="1"
+                            FontAttributes="Bold"
+                            TextColor="#42546D"
+                            Margin="0,18,0,7" />
+                        <Border
+                            BackgroundColor="White"
+                            Stroke="#D8E1EC"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 15"
+                            Padding="13,0"
+                            HeightRequest="54">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="9">
+                                <Image
+                                    Source="auth_lock.svg"
+                                    WidthRequest="18"
+                                    HeightRequest="18"
+                                    VerticalOptions="Center"
+                                    SemanticProperties.Description="Password" />
+                                <Entry
+                                    x:Name="PasswordEntry"
+                                    Grid.Column="1"
+                                    Placeholder="Enter your password"
+                                    FontSize="14"
+                                    TextColor="#13243B"
+                                    PlaceholderColor="#8A98AA"
+                                    IsPassword="True"
+                                    BackgroundColor="Transparent"
+                                    ReturnType="Go"
+                                    Completed="LoginButton_Clicked"
+                                    SemanticProperties.Description="Administrator password" />
+                                <Button
+                                    x:Name="ShowPasswordButton"
+                                    Grid.Column="2"
+                                    Text="◉"
+                                    FontSize="17"
+                                    TextColor="#60748D"
+                                    BackgroundColor="Transparent"
+                                    Padding="5,0"
+                                    Clicked="ShowPasswordButton_Clicked"
+                                    SemanticProperties.Description="Show or hide password" />
+                            </Grid>
+                        </Border>
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,9,0,3">
+                            <CheckBox
+                                x:Name="RememberAdminEmailCheckBox"
+                                Grid.Column="0"
+                                Color="#1678F5"
+                                Scale="0.9"
+                                Margin="-5,0,-4,0"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Text="Remember email"
+                                FontSize="11"
+                                TextColor="#607087"
+                                VerticalOptions="Center" />
+                            <Button
+                                x:Name="ForgotPasswordButton"
+                                Grid.Column="2"
+                                Text="Forgot password?"
+                                FontSize="11"
+                                FontAttributes="Bold"
+                                TextColor="#176AC7"
+                                BackgroundColor="Transparent"
+                                Padding="0"
+                                Clicked="ForgotPasswordButton_Clicked" />
+                        </Grid>
+
+                        <Button
+                            x:Name="LoginButton"
+                            Style="{StaticResource QuickParkPrimaryButton}"
+                            Text="Sign in to admin"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            HeightRequest="54"
+                            Margin="0,22,0,0"
+                            Clicked="LoginButton_Clicked" />
+                        <ActivityIndicator
+                            x:Name="LoadingIndicator"
+                            IsVisible="False"
+                            IsRunning="False"
+                            Color="#1678F5"
+                            HorizontalOptions="Center"
+                            Margin="0,13,0,0" />
+                        <Label
+                            x:Name="StatusLabel"
+                            IsVisible="False"
+                            FontSize="12"
+                            TextColor="#B42336"
+                            HorizontalTextAlignment="Center"
+                            Margin="0,12,0,0" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label
+                    Text="AUTHORIZED QUICKPARK ADMINISTRATORS ONLY"
+                    FontSize="9"
+                    CharacterSpacing="1"
+                    TextColor="#AFC4DF"
+                    HorizontalTextAlignment="Center"
+                    Margin="0,20,0,0" />
+                <Label
+                    Text="Find. Park. Go."
+                    FontSize="11"
+                    CharacterSpacing="0.8"
+                    FontAttributes="Bold"
+                    TextColor="#D3E7FF"
+                    HorizontalTextAlignment="Center"
+                    Margin="0,6,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

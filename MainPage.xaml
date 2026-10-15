@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="QuickPark.MainPage"
+    Title="QuickPark"
+    BackgroundColor="#06182E">
+
+    <Grid>
+        <Image
+            x:Name="ParkingBackgroundImage"
+            Source="login_garage_panorama.svg"
+            Aspect="AspectFill"
+            InputTransparent="True" />
+
+        <Image
+            x:Name="AmbientGlow"
+            Source="login_ambient_glow.svg"
+            Aspect="AspectFill"
+            Opacity="0.62"
+            InputTransparent="True" />
+
+        <BoxView
+            Color="#91031125"
+            InputTransparent="True" />
+
+        <Grid
+            ColumnDefinitions="*,*,*,*"
+            RowDefinitions="*,*,*,*"
+            InputTransparent="True">
+            <Border
+                x:Name="ParticleOne"
+                Grid.Column="0"
+                Grid.Row="0"
+                WidthRequest="4"
+                HeightRequest="4"
+                BackgroundColor="#DDF4FF"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 2"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Margin="24,25,0,0" />
+            <Border
+                x:Name="ParticleTwo"
+                Grid.Column="3"
+                Grid.Row="1"
+                WidthRequest="5"
+                HeightRequest="5"
+                BackgroundColor="#80CFFF"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 3"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Margin="0,20,20,0" />
+            <Border
+                x:Name="ParticleThree"
+                Grid.Column="0"
+                Grid.Row="3"
+                WidthRequest="4"
+                HeightRequest="4"
+                BackgroundColor="#B9E8FF"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 2"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Margin="20,0,0,30" />
+            <Border
+                x:Name="ParticleFour"
+                Grid.Column="3"
+                Grid.Row="3"
+                WidthRequest="3"
+                HeightRequest="3"
+                BackgroundColor="#FFFFFF"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 2"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Margin="0,0,25,35" />
+        </Grid>
+
+        <ScrollView VerticalOptions="Center" VerticalScrollBarVisibility="Never">
+            <Grid
+                x:Name="LoginContent"
+                MaximumWidthRequest="1220"
+                ColumnDefinitions="*,430"
+                ColumnSpacing="72"
+                Padding="28,36"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+
+                <VerticalStackLayout
+                    x:Name="BrandStory"
+                    Grid.Column="0"
+                    Spacing="0"
+                    VerticalOptions="Center"
+                    Padding="0,0,12,0">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Border
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            BackgroundColor="#142D50"
+                            Stroke="#6EAFFF"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 15">
+                            <Image
+                                Source="login_quickpark_logo.svg"
+                                WidthRequest="36"
+                                HeightRequest="36"
+                                Aspect="AspectFit"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                SemanticProperties.Description="QuickPark logo" />
+                        </Border>
+                        <Label
+                            Text="QuickPark"
+                            FontSize="24"
+                            CharacterSpacing="-0.5"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <Border
+                        BackgroundColor="#261D8FFF"
+                        Stroke="#5568BFFF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="12,7"
+                        HorizontalOptions="Start"
+                        Margin="0,48,0,20">
+                        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                            <Border
+                                WidthRequest="7"
+                                HeightRequest="7"
+                                BackgroundColor="#5BE3B0"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 4"
+                                VerticalOptions="Center" />
+                            <Label
+                                Text="PARKING, REIMAGINED"
+                                FontSize="10"
+                                CharacterSpacing="1.5"
+                                FontAttributes="Bold"
+                                TextColor="#DCEBFF"
+                                VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <Label
+                        Text="Your next spot.&#10;Already sorted."
+                        FontSize="48"
+                        CharacterSpacing="-1.5"
+                        LineHeight="1.02"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        MaximumWidthRequest="570" />
+                    <Label
+                        Text="Find a space, book with confidence, and spend less time circling. QuickPark makes getting there the easy part."
+                        FontSize="16"
+                        LineHeight="1.35"
+                        TextColor="#D0DCEF"
+                        MaximumWidthRequest="470"
+                        Margin="0,18,0,0" />
+
+                    <Grid
+                        ColumnDefinitions="Auto,*"
+                        RowDefinitions="Auto,Auto"
+                        ColumnSpacing="14"
+                        RowSpacing="18"
+                        Margin="0,32,0,0">
+                        <Border
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            BackgroundColor="#241B8FFF"
+                            Stroke="#5575BFFF"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 14">
+                            <Image Source="login_location.png"
+                                   WidthRequest="22"
+                                   HeightRequest="22"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   SemanticProperties.Description="Find nearby parking" />
+                        </Border>
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="Find a space nearby" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                            <Label Text="Know where you're going before you leave." FontSize="12" TextColor="#BFCDE0" />
+                        </VerticalStackLayout>
+                        <Border
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            BackgroundColor="#241B8FFF"
+                            Stroke="#5575BFFF"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 14">
+                            <Image Source="login_verified.png"
+                                   WidthRequest="22"
+                                   HeightRequest="22"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   SemanticProperties.Description="Secure parking booking" />
+                        </Border>
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="Book with peace of mind" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                            <Label Text="A smoother arrival starts with a plan." FontSize="12" TextColor="#BFCDE0" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label
+                        Text="FIND.  PARK.  GO."
+                        FontSize="10"
+                        CharacterSpacing="2"
+                        FontAttributes="Bold"
+                        TextColor="#A7C8F4"
+                        Margin="0,42,0,0" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    x:Name="LoginPanel"
+                    Grid.Column="1"
+                    WidthRequest="430"
+                    Spacing="0"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+
+                <Grid
+                    x:Name="BrandHeader"
+                    RowDefinitions="Auto,Auto"
+                    RowSpacing="1"
+                    Margin="2,0,2,18"
+                    Opacity="0">
+                    <HorizontalStackLayout
+                        Spacing="10"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Border
+                            WidthRequest="56"
+                            HeightRequest="56"
+                            BackgroundColor="#142D50"
+                            Stroke="#75D4FF"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 20"
+                            VerticalOptions="Center">
+                            <Image
+                                Source="login_quickpark_logo.svg"
+                                WidthRequest="46"
+                                HeightRequest="46"
+                                Aspect="AspectFit"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                SemanticProperties.Description="QuickPark logo" />
+                        </Border>
+                        <Label
+                            Text="QuickPark"
+                            FontSize="32"
+                            CharacterSpacing="-0.2"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Label
+                        Grid.Row="1"
+                        Text="Find. Park. Go."
+                        FontSize="12"
+                        CharacterSpacing="0.6"
+                        FontAttributes="Bold"
+                        TextColor="#A6D5FF"
+                        HorizontalOptions="Center"
+                        Margin="0,2,0,0" />
+                </Grid>
+
+                <Border
+                    x:Name="LoginCard"
+                    BackgroundColor="#F20A1729"
+                    Stroke="#7893B8D8"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 30"
+                    Padding="28,28"
+                    Opacity="0">
+                    <VerticalStackLayout Spacing="0">
+                        <Border
+                            WidthRequest="48"
+                            HeightRequest="48"
+                            BackgroundColor="#1F3D60"
+                            Stroke="#4E83B8"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 17"
+                            HorizontalOptions="Center"
+                            Margin="0,0,0,14">
+                            <Image
+                                Source="login_quickpark_logo.svg"
+                                WidthRequest="38"
+                                HeightRequest="38"
+                                Aspect="AspectFit"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                SemanticProperties.Description="QuickPark" />
+                        </Border>
+                        <Label
+                            x:Name="AuthTitleLabel"
+                            Text="Welcome back"
+                            FontSize="28"
+                            CharacterSpacing="-0.5"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            HorizontalTextAlignment="Center" />
+                        <Label
+                            x:Name="AuthSubtitleLabel"
+                            Text="Log in to your QuickPark account"
+                            FontSize="13"
+                            TextColor="#BAC9DC"
+                            Margin="0,5,0,26"
+                            HorizontalTextAlignment="Center" />
+
+                        <HorizontalStackLayout Spacing="7" Margin="0,0,0,7">
+                            <Image Source="auth_email.svg"
+                                   WidthRequest="15"
+                                   HeightRequest="15"
+                                   VerticalOptions="Center"
+                                   SemanticProperties.Description="Email" />
+                            <Label Text="Email address"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#E6EEF7"
+                                   VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Border
+                            Stroke="#527A91B7"
+                            StrokeThickness="1"
+                            BackgroundColor="#16FFFFFF"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="12,0"
+                            HeightRequest="54">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Image Source="auth_email.svg"
+                                       WidthRequest="18"
+                                       HeightRequest="18"
+                                       VerticalOptions="Center"
+                                       Opacity="0.82"
+                                       SemanticProperties.Description="Email address" />
+                                <Entry
+                                    x:Name="EmailEntry"
+                                    Grid.Column="1"
+                                    Placeholder="Enter your email address"
+                                    Keyboard="Email"
+                                    FontSize="14"
+                                    TextColor="White"
+                                    PlaceholderColor="#9DADC1"
+                                    BackgroundColor="Transparent"
+                                    ClearButtonVisibility="WhileEditing"
+                                    ReturnType="Next" />
+                            </Grid>
+                        </Border>
+
+                        <HorizontalStackLayout Spacing="7" Margin="0,18,0,7">
+                            <Image Source="auth_lock.svg"
+                                   WidthRequest="15"
+                                   HeightRequest="15"
+                                   VerticalOptions="Center"
+                                   SemanticProperties.Description="Password" />
+                            <Label Text="Password"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#E6EEF7"
+                                   VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Border
+                            Stroke="#527A91B7"
+                            StrokeThickness="1"
+                            BackgroundColor="#16FFFFFF"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="12,0"
+                            HeightRequest="54">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="9">
+                                <Image Source="auth_lock.svg"
+                                       WidthRequest="18"
+                                       HeightRequest="18"
+                                       VerticalOptions="Center"
+                                       Opacity="0.82"
+                                       SemanticProperties.Description="Password" />
+                                <Entry
+                                    x:Name="PasswordEntry"
+                                    Grid.Column="1"
+                                    Placeholder="Enter your password"
+                                    FontSize="14"
+                                    TextColor="White"
+                                    PlaceholderColor="#9DADC1"
+                                    IsPassword="True"
+                                    BackgroundColor="Transparent"
+                                    ReturnType="Go"
+                                    Completed="PasswordEntry_Completed" />
+                                <Button
+                                    x:Name="ShowPasswordButton"
+                                    Grid.Column="2"
+                                    Text="◉"
+                                    FontSize="17"
+                                    TextColor="#B9D8F7"
+                                    BackgroundColor="Transparent"
+                                    Padding="5,0"
+                                    Clicked="ShowPasswordButton_Clicked" />
+                            </Grid>
+                        </Border>
+
+                        <Grid
+                            x:Name="LoginOptionsGrid"
+                            ColumnDefinitions="Auto,*,Auto"
+                            Margin="0,10,0,18">
+                            <CheckBox
+                                x:Name="RememberMeCheckBox"
+                                Grid.Column="0"
+                                Color="#1473E6"
+                                Scale="0.9"
+                                Margin="-5,0,-4,0"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Text="Remember Me"
+                                FontSize="11"
+                                TextColor="#D5DFEB"
+                                VerticalOptions="Center" />
+                            <Button
+                                x:Name="ForgotPasswordButton"
+                                Grid.Column="2"
+                                Text="Forgot Password?"
+                                FontSize="11"
+                                FontAttributes="Bold"
+                                TextColor="#78BFFF"
+                                BackgroundColor="Transparent"
+                                Padding="0"
+                                Clicked="ForgotPasswordButton_Clicked" />
+                        </Grid>
+
+                        <Button
+                            x:Name="LoginButton"
+                            Style="{StaticResource QuickParkPrimaryButton}"
+                            Text="Log In"
+                            ImageSource="auth_login.svg"
+                            ContentLayout="Left, 8"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            HeightRequest="54"
+                            Clicked="LoginButton_Clicked" />
+
+                        <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="12" Margin="0,18,0,16">
+                            <BoxView Grid.Column="0" HeightRequest="1" Color="#3B526B" VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Text="OR"
+                                FontSize="10"
+                                CharacterSpacing="1"
+                                TextColor="#9BAFC5"
+                                VerticalOptions="Center" />
+                            <BoxView Grid.Column="2" HeightRequest="1" Color="#3B526B" VerticalOptions="Center" />
+                        </Grid>
+
+                        <Border
+                            BackgroundColor="#101E31"
+                            Stroke="#4C6988"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 17"
+                            HeightRequest="52">
+                            <Grid>
+                                <HorizontalStackLayout
+                                    Spacing="10"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    InputTransparent="True">
+                                    <Image
+                                        Source="google_g.svg"
+                                        WidthRequest="20"
+                                        HeightRequest="20"
+                                        Aspect="AspectFit" />
+                                    <Label
+                                        Text="Continue with Google"
+                                        FontSize="13"
+                                        TextColor="White"
+                                        VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                                <Button
+                                    x:Name="GoogleSignInButton"
+                                    Text=""
+                                    BackgroundColor="Transparent"
+                                    Clicked="GoogleSignInButton_Clicked"
+                                    SemanticProperties.Description="Continue with Google" />
+                            </Grid>
+                        </Border>
+
+                        <ActivityIndicator
+                            x:Name="LoadingIndicator"
+                            IsVisible="False"
+                            IsRunning="False"
+                            Color="#54B8FF"
+                            HorizontalOptions="Center"
+                            Margin="0,12,0,0" />
+                        <Label
+                            x:Name="StatusLabel"
+                            IsVisible="False"
+                            FontSize="12"
+                            TextColor="#C62828"
+                            HorizontalTextAlignment="Center"
+                            Margin="0,10,0,0" />
+
+                        <HorizontalStackLayout
+                            HorizontalOptions="Center"
+                            Spacing="3"
+                            Margin="0,17,0,0">
+                            <Label
+                                x:Name="RegisterPromptLabel"
+                                Text="Don't have an account?"
+                                FontSize="12"
+                                TextColor="#BFCDE0"
+                                VerticalOptions="Center" />
+                            <Button
+                                x:Name="RegisterButton"
+                                Text="Sign Up"
+                                FontSize="12"
+                                FontAttributes="Bold"
+                                TextColor="#86C6FF"
+                                BackgroundColor="Transparent"
+                                Padding="2,0"
+                                Clicked="RegisterButton_Clicked" />
+                        </HorizontalStackLayout>
+                        <Button
+                            x:Name="AdminLoginButton"
+                            Text="Admin sign in  ›"
+                            FontSize="12"
+                            FontAttributes="Bold"
+                            TextColor="#BBD8F5"
+                            BackgroundColor="Transparent"
+                            BorderColor="#3D5C7C"
+                            BorderWidth="1"
+                            CornerRadius="16"
+                            HeightRequest="44"
+                            Padding="12,0"
+                            Margin="0,14,0,0"
+                            Clicked="AdminLoginButton_Clicked" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>

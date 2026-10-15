@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+    x:Class="QuickPark.HomePage"
+    Title="QuickPark"
+    BackgroundColor="{StaticResource QuickParkPage}">
+
+    <Grid x:Name="DashboardLayout" ColumnDefinitions="210,*">
+        <Border
+            x:Name="DashboardSidebar"
+            Grid.Column="0"
+            BackgroundColor="#0A1D3A"
+            StrokeThickness="0"
+            Padding="13,20">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <HorizontalStackLayout Spacing="10" Margin="4,0,0,25">
+                    <Border
+                        WidthRequest="46"
+                        HeightRequest="46"
+                        BackgroundColor="#142D50"
+                        Stroke="#4C8BCB"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16">
+                        <Image
+                            Source="quickpark_brand_logo.png"
+                            WidthRequest="38"
+                            HeightRequest="38"
+                            Aspect="AspectFit"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            SemanticProperties.Description="QuickPark logo" />
+                    </Border>
+                    <VerticalStackLayout Spacing="1" VerticalOptions="Center">
+                        <Label Text="QuickPark" FontSize="19" CharacterSpacing="-0.4" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="PARK SMART. GO FURTHER." FontSize="8" CharacterSpacing="0.8" TextColor="#AEC5E2" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout x:Name="SidebarNavigation" Grid.Row="1" Spacing="7">
+                    <Button x:Name="HomeNavigationButton" Text="Home" ImageSource="nav_home.svg" ContentLayout="Left, 12" CommandParameter="Home" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="#1469E8" TextColor="White" FontSize="12" FontAttributes="Bold" HeightRequest="43" CornerRadius="12" Padding="14,0" HorizontalOptions="Fill" />
+                    <Button Text="My reservations" ImageSource="nav_bookings.svg" ContentLayout="Left, 12" CommandParameter="Bookings" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HeightRequest="43" CornerRadius="12" Padding="14,0" HorizontalOptions="Fill" />
+                    <Button Text="Parking history" ImageSource="nav_history.svg" ContentLayout="Left, 12" CommandParameter="History" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HeightRequest="43" CornerRadius="12" Padding="14,0" HorizontalOptions="Fill" />
+                    <Button Text="Profile" ImageSource="nav_profile.svg" ContentLayout="Left, 12" CommandParameter="Profile" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HeightRequest="43" CornerRadius="12" Padding="14,0" HorizontalOptions="Fill" />
+                    <Button Text="Notifications" ImageSource="nav_notifications.svg" ContentLayout="Left, 12" CommandParameter="Notifications" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HeightRequest="43" CornerRadius="12" Padding="14,0" HorizontalOptions="Fill" />
+                    <Button Text="Settings" ImageSource="nav_settings.svg" ContentLayout="Left, 12" CommandParameter="Settings" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HeightRequest="43" CornerRadius="12" Padding="14,0" HorizontalOptions="Fill" />
+                    <Button Text="Log out" ImageSource="nav_logout.svg" ContentLayout="Left, 12" Clicked="LogoutButton_Clicked" BackgroundColor="Transparent" TextColor="#CED9E9" FontSize="12" HeightRequest="43" CornerRadius="12" Padding="14,0" HorizontalOptions="Fill" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="2" Spacing="9">
+                    <Border
+                        x:Name="SidebarPromo"
+                        Stroke="#27527E"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 17"
+                        Padding="11,12">
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="PARK WITH A PLAN" FontSize="9" CharacterSpacing="1" FontAttributes="Bold" TextColor="#83BDFB" />
+                            <Label Text="Find your next spot with QuickPark." FontSize="11" TextColor="#E0EAF7" />
+                            <Button Text="Find parking  ›" Clicked="ScrollToParkingButton_Clicked" BackgroundColor="#173C68" TextColor="White" FontSize="10" HeightRequest="34" CornerRadius="10" Padding="8,0" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Label Text="QuickPark · Live parking data" FontSize="9" TextColor="#8DA2BE" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+        <Grid x:Name="DashboardMain" Grid.Column="1" RowDefinitions="Auto,*,Auto">
+            <Grid
+                x:Name="DashboardTopBar"
+                Padding="16,8"
+                BackgroundColor="White"
+                ColumnDefinitions="*,Auto,Auto"
+                ColumnSpacing="10">
+                <Border
+                    BackgroundColor="#F0F5FC"
+                    Stroke="#E2EAF4"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 15"
+                    Padding="13,0"
+                    HeightRequest="42"
+                    VerticalOptions="Center">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="9">
+                        <Image Source="dashboard_search.svg"
+                               WidthRequest="19"
+                               HeightRequest="19"
+                               VerticalOptions="Center"
+                               SemanticProperties.Description="Search parking locations" />
+                        <Entry
+                            x:Name="SearchEntry"
+                            Grid.Column="1"
+                            Placeholder="Search a parking location..."
+                            FontSize="12"
+                            TextColor="#25364A"
+                            PlaceholderColor="#8494A8"
+                            BackgroundColor="Transparent"
+                            ReturnType="Search"
+                            TextChanged="SearchEntry_TextChanged"
+                            Completed="SearchButton_Clicked" />
+                    </Grid>
+                </Border>
+                <Button
+                    x:Name="NotificationsButton"
+                    Grid.Column="1"
+                    ImageSource="nav_notifications_dark.svg"
+                    TextColor="#284565"
+                    BackgroundColor="#F2F6FC"
+                    WidthRequest="42"
+                    HeightRequest="42"
+                    CornerRadius="13"
+                    Clicked="NotificationsButton_Clicked"
+                    SemanticProperties.Description="Open notifications" />
+                <Button
+                    x:Name="TopProfileButton"
+                    Grid.Column="2"
+                    Text="Profile"
+                    ImageSource="nav_profile_dark.svg"
+                    ContentLayout="Left, 7"
+                    FontSize="11"
+                    FontAttributes="Bold"
+                    TextColor="#263E5D"
+                    BackgroundColor="#F2F6FC"
+                    HeightRequest="42"
+                    CornerRadius="13"
+                    Padding="12,0"
+                    Clicked="ProfileTab_Clicked"
+                    SemanticProperties.Description="Open profile" />
+            </Grid>
+
+            <ScrollView
+                x:Name="DashboardScrollView"
+                Grid.Row="1"
+                VerticalScrollBarVisibility="Never">
+                <VerticalStackLayout
+                    x:Name="DashboardContent"
+                    Padding="16,14"
+                    Spacing="11"
+                    HorizontalOptions="Fill">
+
+                    <ScrollView x:Name="CompactNavigation" IsVisible="False" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <HorizontalStackLayout Spacing="6">
+                            <Border
+                                WidthRequest="34"
+                                HeightRequest="34"
+                                BackgroundColor="#142D50"
+                                Stroke="#4C8BCB"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 11"
+                                Padding="3"
+                                VerticalOptions="Center">
+                                <Image
+                                    Source="quickpark_brand_logo.png"
+                                    Aspect="AspectFit"
+                                    SemanticProperties.Description="QuickPark logo" />
+                            </Border>
+                            <Button Text="Home" ImageSource="nav_home_dark.svg" CommandParameter="Home" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="#1469E8" TextColor="#365372" FontSize="10" HeightRequest="34" CornerRadius="10" Padding="12,0" />
+                            <Button Text="My reservations" ImageSource="nav_bookings_dark.svg" CommandParameter="Bookings" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="10" HeightRequest="34" CornerRadius="10" Padding="12,0" />
+                            <Button Text="History" ImageSource="nav_history_dark.svg" CommandParameter="History" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="10" HeightRequest="34" CornerRadius="10" Padding="12,0" />
+                            <Button Text="Profile" ImageSource="nav_profile_dark.svg" CommandParameter="Profile" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="10" HeightRequest="34" CornerRadius="10" Padding="12,0" />
+                            <Button Text="Notifications" ImageSource="nav_notifications_dark.svg" CommandParameter="Notifications" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="10" HeightRequest="34" CornerRadius="10" Padding="12,0" />
+                            <Button Text="Settings" ImageSource="nav_settings_dark.svg" CommandParameter="Settings" Clicked="DashboardNavigationButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="10" HeightRequest="34" CornerRadius="10" Padding="12,0" />
+                            <Button Text="Log out" ImageSource="nav_logout_dark.svg" Clicked="LogoutButton_Clicked" BackgroundColor="White" TextColor="#365372" FontSize="10" HeightRequest="34" CornerRadius="10" Padding="12,0" />
+                        </HorizontalStackLayout>
+                    </ScrollView>
+
+                    <Border
+                        x:Name="WelcomeBanner"
+                        BackgroundColor="#0A1D38"
+                        Stroke="#244C78"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 24"
+                        Padding="0">
+                        <Grid RowDefinitions="Auto,Auto">
+                            <Image
+                                x:Name="WelcomeBannerArtImage"
+                                Grid.Row="0"
+                                Source="quickpark_welcome_banner.png"
+                                Aspect="AspectFit"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Start"
+                                SemanticProperties.Description="QuickPark welcome banner with parking map and car" />
+                            <Grid
+                                Grid.Row="1"
+                                ColumnDefinitions="*,Auto"
+                                RowDefinitions="Auto,Auto"
+                                ColumnSpacing="12"
+                                RowSpacing="3"
+                                Padding="18,13">
+                                <Label
+                                    Text="Welcome to QuickPark"
+                                    x:Name="WelcomeHeadline"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    FontSize="20"
+                                    CharacterSpacing="-0.35"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    LineBreakMode="WordWrap"
+                                    MaxLines="2"
+                                    VerticalOptions="End"
+                                    HorizontalOptions="Fill"
+                                    HorizontalTextAlignment="Start" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Text="Find a parking spot, reserve ahead, and enjoy a hassle-free arrival."
+                                    FontSize="11"
+                                    TextColor="#C6D7EC"
+                                    LineBreakMode="WordWrap"
+                                    MaxLines="2"
+                                    HorizontalOptions="Fill"
+                                    HorizontalTextAlignment="Start" />
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    Text="Book parking  ›"
+                                    ImageSource="nav_parking.svg"
+                                    ContentLayout="Left, 7"
+                                    FontSize="11"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    BackgroundColor="#1678F5"
+                                    HeightRequest="42"
+                                    CornerRadius="14"
+                                    Padding="14,0"
+                                    VerticalOptions="Center"
+                                    Clicked="ScrollToParkingButton_Clicked" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <Border
+                        x:Name="OfflineStatusNotice"
+                        IsVisible="False"
+                        BackgroundColor="#FFF4DB"
+                        Stroke="#E7C978"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12,9">
+                        <Label
+                            x:Name="OfflineStatusLabel"
+                            Text="Offline: showing saved parking information. Availability may have changed."
+                            FontSize="11"
+                            TextColor="#624B16"
+                            LineBreakMode="WordWrap" />
+                    </Border>
+
+                    <Grid x:Name="SummaryCards" ColumnDefinitions="*,*,*,*" ColumnSpacing="10" RowSpacing="10">
+                        <Border x:Name="NearbyMetricCard" Grid.Column="0" MinimumHeightRequest="90" BackgroundColor="White" Stroke="#DDE7F1" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
+                            <Grid ColumnDefinitions="54,*" ColumnSpacing="16">
+                                <Border WidthRequest="54" HeightRequest="54" BackgroundColor="#E7F0FF" StrokeThickness="0" StrokeShape="RoundRectangle 17" VerticalOptions="Center">
+                                    <Image Source="dashboard_metric_slots.png" AutomationId="AvailableSlotsIcon" WidthRequest="34" HeightRequest="34" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center" SemanticProperties.Description="Parking availability" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                    <Label Text="Available slots" FontSize="13" TextColor="#657991" />
+                                    <Label x:Name="AvailableSlotsMetricLabel" Text="—" FontSize="22" FontAttributes="Bold" TextColor="#18365D" />
+                                    <Label Text="Available now" FontSize="9" TextColor="#71839A" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="NearbyMetricCard_Tapped" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border x:Name="BookingsMetricCard" Grid.Column="1" MinimumHeightRequest="90" BackgroundColor="White" Stroke="#DDE7F1" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
+                            <Grid ColumnDefinitions="54,*" ColumnSpacing="16">
+                                <Border WidthRequest="54" HeightRequest="54" BackgroundColor="#E6F7EF" StrokeThickness="0" StrokeShape="RoundRectangle 17" VerticalOptions="Center">
+                                    <Image Source="dashboard_metric_bookings.png" AutomationId="BookingsIcon" WidthRequest="34" HeightRequest="34" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center" SemanticProperties.Description="Bookings" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                    <Label Text="Your bookings" FontSize="13" TextColor="#657991" />
+                                    <Label x:Name="BookingsMetricLabel" Text="—" FontSize="22" FontAttributes="Bold" TextColor="#18365D" />
+                                    <Label Text="Current booking" FontSize="9" TextColor="#71839A" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="BookingsTab_Clicked" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border x:Name="MapMetricCard" Grid.Column="2" MinimumHeightRequest="90" BackgroundColor="White" Stroke="#DDE7F1" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
+                            <Grid ColumnDefinitions="54,*" ColumnSpacing="16">
+                                <Border WidthRequest="54" HeightRequest="54" BackgroundColor="#F0E9FF" StrokeThickness="0" StrokeShape="RoundRectangle 17" VerticalOptions="Center">
+                                    <Image Source="dashboard_metric_quickbook.png" AutomationId="QuickBookingIcon" WidthRequest="34" HeightRequest="34" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center" SemanticProperties.Description="Choose a parking spot" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                    <Label Text="Quick booking" FontSize="13" TextColor="#657991" />
+                                    <Label Text="Choose a spot" FontSize="17" FontAttributes="Bold" TextColor="#18365D" />
+                                    <Label Text="Live available spaces" FontSize="9" TextColor="#71839A" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ScrollToParkingButton_Clicked" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border x:Name="NotificationsMetricCard" Grid.Column="3" MinimumHeightRequest="90" BackgroundColor="White" Stroke="#DDE7F1" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
+                            <Grid ColumnDefinitions="54,*" ColumnSpacing="16">
+                                <Border WidthRequest="54" HeightRequest="54" BackgroundColor="#FFF0E3" StrokeThickness="0" StrokeShape="RoundRectangle 17" VerticalOptions="Center">
+                                    <Image Source="dashboard_metric_notifications.png" AutomationId="NotificationsIcon" WidthRequest="34" HeightRequest="34" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center" SemanticProperties.Description="Notifications" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                    <Label Text="Notifications" FontSize="13" TextColor="#657991" />
+                                    <Label x:Name="NotificationsMetricLabel" Text="—" FontSize="22" FontAttributes="Bold" TextColor="#18365D" />
+                                    <Label x:Name="NotificationsDetailLabel" Text="Open inbox" FontSize="9" TextColor="#71839A" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="NotificationsButton_Clicked" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </Grid>
+
+                    <Grid
+                        x:Name="DashboardColumns"
+                        ColumnDefinitions="*,300"
+                        ColumnSpacing="11"
+                        RowDefinitions="Auto,Auto,Auto,Auto">
+                        <Border
+                            x:Name="ParkingSection"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="14"
+                            Margin="0,0,0,11">
+                            <VerticalStackLayout Spacing="10">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="Find a parking spot" FontSize="16" FontAttributes="Bold" TextColor="#172E4E" />
+                                        <Label x:Name="ParkingStatusLabel" Text="Loading locations and live slot availability…" FontSize="10" TextColor="#7B8DA4" />
+                                    </VerticalStackLayout>
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="5">
+                                        <Button Text="Refresh" ImageSource="dashboard_refresh.svg" ContentLayout="Left, 5" Clicked="RefreshDashboardButton_Clicked" FontSize="10" FontAttributes="Bold" TextColor="#1769D2" BackgroundColor="#EAF2FF" HeightRequest="36" CornerRadius="11" Padding="10,0" />
+                                        <Button x:Name="MapNavigateButton" Text="Navigate" ImageSource="dashboard_route.svg" ContentLayout="Left, 5" Clicked="MapNavigateButton_Clicked" FontSize="10" FontAttributes="Bold" TextColor="White" BackgroundColor="#1678F5" HeightRequest="36" CornerRadius="11" Padding="11,0" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+
+                                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                                    <HorizontalStackLayout x:Name="CategoryList" Spacing="7">
+                                        <Button Text="All locations" BackgroundColor="#1769D2" TextColor="White" FontSize="10" HeightRequest="32" CornerRadius="16" Padding="13,0" Clicked="CategoryButton_Clicked" />
+                                        <Button Text="Available" BackgroundColor="#F0F4F9" TextColor="#40556F" FontSize="10" HeightRequest="32" CornerRadius="16" Padding="13,0" Clicked="CategoryButton_Clicked" />
+                                        <Button Text="No open slots" BackgroundColor="#F0F4F9" TextColor="#40556F" FontSize="10" HeightRequest="32" CornerRadius="16" Padding="13,0" Clicked="CategoryButton_Clicked" />
+                                    </HorizontalStackLayout>
+                                </ScrollView>
+
+                                <Border
+                                    x:Name="MapCard"
+                                    BackgroundColor="#EDF3F8"
+                                    Stroke="#DDE6F0"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 16"
+                                    Padding="13"
+                                    MinimumHeightRequest="340">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label Text="Live parking map" FontSize="12" FontAttributes="Bold" TextColor="#243D5C" />
+                                                <Label Text="Parking areas with saved coordinates." FontSize="9" TextColor="#63778E" />
+                                            </VerticalStackLayout>
+                                            <Button
+                                                x:Name="FindNearbyParkingButton"
+                                                Style="{StaticResource QuickParkSecondaryButton}"
+                                                Grid.Column="1"
+                                                Text="Near me"
+                                                Clicked="FindNearbyParkingButton_Clicked"
+                                                FontSize="9"
+                                                FontAttributes="Bold"
+                                                HeightRequest="40"
+                                                Padding="10,0"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                        <Border
+                                            BackgroundColor="#E7EEF5"
+                                            Stroke="#DDE6F0"
+                                            StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 14"
+                                            HeightRequest="230">
+                                            <Grid>
+                                                <maps:Map
+                                                    x:Name="LiveParkingMap"
+                                                    MapType="Street"
+                                                    IsShowingUser="False"
+                                                    IsScrollEnabled="True"
+                                                    IsZoomEnabled="True"
+                                                    HorizontalOptions="Fill"
+                                                    VerticalOptions="Fill" />
+                                                <WebView
+                                                    x:Name="FallbackParkingMap"
+                                                    IsVisible="False"
+                                                    HorizontalOptions="Fill"
+                                                    VerticalOptions="Fill" />
+                                                <VerticalStackLayout
+                                                    x:Name="MapPlaceholder"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"
+                                                    Spacing="4"
+                                                    Padding="16"
+                                                    InputTransparent="True">
+                                                    <Image Source="nav_locate.svg" WidthRequest="24" HeightRequest="24" Aspect="AspectFit" HorizontalOptions="Center" />
+                                                    <Label
+                                                        x:Name="MapPlaceholderLabel"
+                                                        Text="Parking locations with saved coordinates will appear on the live map."
+                                                        FontSize="10"
+                                                        TextColor="#526579"
+                                                        HorizontalTextAlignment="Center"
+                                                        LineBreakMode="WordWrap" />
+                                                </VerticalStackLayout>
+                                                <ActivityIndicator
+                                                    x:Name="ParkingMapLoadingIndicator"
+                                                    IsVisible="False"
+                                                    IsRunning="False"
+                                                    Color="#1769D2"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"
+                                                    InputTransparent="True" />
+                                                <VerticalStackLayout
+                                                    HorizontalOptions="End"
+                                                    VerticalOptions="Start"
+                                                    Spacing="5"
+                                                    Margin="8">
+                                                    <Button
+                                                        Text="+"
+                                                        AutomationId="ZoomInParkingMapButton"
+                                                        WidthRequest="38"
+                                                        HeightRequest="38"
+                                                        Padding="0"
+                                                        FontSize="20"
+                                                        TextColor="#172E4E"
+                                                        BackgroundColor="White"
+                                                        Clicked="ZoomInParkingMapButton_Clicked" />
+                                                    <Button
+                                                        Text="−"
+                                                        AutomationId="ZoomOutParkingMapButton"
+                                                        WidthRequest="38"
+                                                        HeightRequest="38"
+                                                        Padding="0"
+                                                        FontSize="20"
+                                                        TextColor="#172E4E"
+                                                        BackgroundColor="White"
+                                                        Clicked="ZoomOutParkingMapButton_Clicked" />
+                                                    <Button
+                                                        ImageSource="nav_locate.svg"
+                                                        AutomationId="RecenterParkingMapButton"
+                                                        WidthRequest="38"
+                                                        HeightRequest="38"
+                                                        Padding="0"
+                                                        TextColor="#1769D2"
+                                                        BackgroundColor="White"
+                                                        Clicked="RecenterParkingMapButton_Clicked"
+                                                        SemanticProperties.Description="Show my current GPS location on the parking map" />
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Border>
+                                        <Label
+                                            x:Name="ParkingMapStatusLabel"
+                                            Text="Parking locations will appear on the live map."
+                                            FontSize="9"
+                                            TextColor="#63778E" />
+                                        <Border
+                                            x:Name="MapSelectedLocationPanel"
+                                            IsVisible="False"
+                                            BackgroundColor="White"
+                                            Stroke="#DDE6F0"
+                                            StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 14"
+                                            Padding="12">
+                                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+                                                <Label
+                                                    x:Name="MapSelectedLocationNameLabel"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    FontSize="13"
+                                                    FontAttributes="Bold"
+                                                    TextColor="#102B4E"
+                                                    LineBreakMode="TailTruncation" />
+                                                <Label
+                                                    x:Name="MapSelectedLocationAddressLabel"
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    FontSize="10"
+                                                    TextColor="#63778E"
+                                                    LineBreakMode="WordWrap" />
+                                                <Label
+                                                    x:Name="MapSelectedLocationDetailsLabel"
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    FontSize="10"
+                                                    TextColor="#1769D2" />
+                                                <Button
+                                                    x:Name="MapSelectedLocationBookButton"
+                                                    Grid.Row="0"
+                                                    Grid.RowSpan="3"
+                                                    Grid.Column="1"
+                                                    Text="Book now"
+                                                    FontSize="10"
+                                                    Padding="10,0"
+                                                    HeightRequest="38"
+                                                    VerticalOptions="Center"
+                                                    Clicked="MapSelectedLocationBookButton_Clicked" />
+                                            </Grid>
+                                        </Border>
+                                        <Label Text="Available spaces · Tap a spot to start booking" FontSize="11" FontAttributes="Bold" TextColor="#243D5C" />
+                                        <FlexLayout
+                                            x:Name="ParkingSpotPreview"
+                                            Direction="Row"
+                                            Wrap="Wrap"
+                                            JustifyContent="Start"
+                                            AlignItems="Start"
+                                            MinimumHeightRequest="52" />
+                                        <Label x:Name="ParkingSpotPreviewStatusLabel" Text="Loading available parking spaces…" FontSize="10" TextColor="#526579" />
+                                    </VerticalStackLayout>
+                                </Border>
+
+                                <VerticalStackLayout x:Name="ParkingListings" Spacing="8" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border
+                            x:Name="NotificationsSection"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="14"
+                            Margin="0,0,0,11">
+                            <VerticalStackLayout Spacing="9">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="Notifications" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                        <Label x:Name="NotificationsPreviewStatusLabel" Text="Your latest parking updates" FontSize="9" TextColor="#798AA0" />
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="1" Text="View all  ›" Clicked="NotificationsButton_Clicked" FontSize="9" FontAttributes="Bold" TextColor="#1769D2" BackgroundColor="Transparent" Padding="2,0" HeightRequest="32" />
+                                </Grid>
+                                <VerticalStackLayout x:Name="NotificationPreviewList" Spacing="8" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border
+                            x:Name="ReservationSection"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="14"
+                            Margin="0,0,0,11">
+                            <VerticalStackLayout Spacing="10">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="7">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="My reservations" FontSize="15" FontAttributes="Bold" TextColor="#172E4E" />
+                                        <Label Text="Your current reservation status." FontSize="9" TextColor="#798AA0" />
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="1" Text="View all  ›" Clicked="BookingsTab_Clicked" FontSize="9" FontAttributes="Bold" TextColor="#1769D2" BackgroundColor="Transparent" Padding="2,0" HeightRequest="32" />
+                                </Grid>
+                                <Border BackgroundColor="#F2F7FD" Stroke="#E3EBF5" StrokeThickness="1" StrokeShape="RoundRectangle 13" Padding="10,9">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="9">
+                                        <Border WidthRequest="34" HeightRequest="34" BackgroundColor="#DFEAFA" StrokeThickness="0" StrokeShape="RoundRectangle 10">
+                                            <Image Source="nav_bookings_dark.svg" WidthRequest="18" HeightRequest="18" Aspect="AspectFit" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                            <Label x:Name="ReservationSummaryLabel" Text="Check your bookings" FontSize="11" FontAttributes="Bold" TextColor="#243D5C" />
+                                            <Label x:Name="ReservationDetailLabel" Text="Your current reservation appears here." FontSize="9" TextColor="#74869C" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                                <Button Text="Open my reservations" Clicked="BookingsTab_Clicked" FontSize="10" FontAttributes="Bold" TextColor="White" BackgroundColor="#1769D2" HeightRequest="38" CornerRadius="12" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border
+                            x:Name="ProfileSection"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="14"
+                            Margin="0,0,0,11">
+                            <Grid ColumnDefinitions="48,*" ColumnSpacing="11">
+                                <Border WidthRequest="46"
+                                        HeightRequest="46"
+                                        BackgroundColor="#E7F0FE"
+                                        Stroke="#B8D3F3"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 23"
+                                        Padding="0">
+                                    <Grid>
+                                        <Label x:Name="ProfileAvatarFallback"
+                                               Text="Q"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="#236BC3"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center" />
+                                        <Image x:Name="DashboardProfilePhotoImage"
+                                               IsVisible="False"
+                                               Aspect="AspectFill" />
+                                    </Grid>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                    <Label x:Name="ProfileNameLabel" Text="QuickPark Driver" FontSize="12" FontAttributes="Bold" TextColor="#243D5C" LineBreakMode="TailTruncation" />
+                                    <Label x:Name="ProfileEmailLabel" FontSize="9" TextColor="#7889A0" LineBreakMode="TailTruncation" />
+                                    <Button Text="Edit profile  ›" Clicked="ProfileTab_Clicked" FontSize="9" FontAttributes="Bold" TextColor="#1769D2" BackgroundColor="Transparent" HorizontalOptions="Start" Padding="0" HeightRequest="27" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+
+                        <Border
+                            x:Name="QuickActionsSection"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            BackgroundColor="White"
+                            Stroke="#E1EAF4"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="14">
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Quick actions" FontSize="14" FontAttributes="Bold" TextColor="#172E4E" />
+                                <Button Text="Book a parking spot" ImageSource="nav_parking.svg" ContentLayout="Left, 9" Clicked="QuickBookButton_Clicked" Style="{StaticResource QuickParkPrimaryButton}" HeightRequest="46" Padding="14,0" HorizontalOptions="Fill" />
+                                <Button Text="Open notifications" ImageSource="nav_notifications_dark.svg" ContentLayout="Left, 9" Clicked="NotificationsButton_Clicked" FontSize="10" FontAttributes="Bold" TextColor="#5944B5" BackgroundColor="#F1EDFF" HeightRequest="39" CornerRadius="11" Padding="14,0" HorizontalOptions="Fill" />
+                                <Button Text="Contact customer service" ImageSource="support_headset.svg" ContentLayout="Left, 9" Clicked="CustomerServiceButton_Clicked" FontSize="10" FontAttributes="Bold" TextColor="#1769D2" BackgroundColor="#EAF2FF" HeightRequest="39" CornerRadius="11" Padding="14,0" HorizontalOptions="Fill" />
+                                <Label Text="Availability and hourly rates are loaded from QuickPark." FontSize="9" TextColor="#8493A6" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                    <Label Text="The map uses live parking records and interactive OpenStreetMap controls. 3D buildings and map rotation are not supported by this provider." FontSize="9" TextColor="#8291A5" HorizontalTextAlignment="Center" Margin="0,1,0,7" />
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Grid
+                x:Name="CompactBottomNavigation"
+                Grid.Row="2"
+                IsVisible="False"
+                ColumnDefinitions="*,*,*,*"
+                BackgroundColor="White"
+                Padding="6,5"
+                ColumnSpacing="4">
+                <Button Grid.Column="0" Text="Home" CommandParameter="Home" ImageSource="nav_home_dark.svg" ContentLayout="Top, 1" FontSize="9" HeightRequest="50" TextColor="#526579" BackgroundColor="Transparent" CornerRadius="15" Clicked="HomeTab_Clicked" />
+                <Button Grid.Column="1" Text="Bookings" CommandParameter="Bookings" ImageSource="nav_bookings_dark.svg" ContentLayout="Top, 1" FontSize="9" HeightRequest="50" TextColor="#526579" BackgroundColor="Transparent" CornerRadius="15" Clicked="BookingsTab_Clicked" SemanticProperties.Description="Bookings" />
+                <Button Grid.Column="2" Text="Alerts" CommandParameter="Notifications" ImageSource="nav_notifications_dark.svg" ContentLayout="Top, 1" FontSize="9" HeightRequest="50" TextColor="#526579" BackgroundColor="Transparent" CornerRadius="15" Clicked="NotificationsButton_Clicked" SemanticProperties.Description="Notifications" />
+                <Button Grid.Column="3" Text="Profile" CommandParameter="Profile" ImageSource="nav_profile_dark.svg" ContentLayout="Top, 1" FontSize="9" HeightRequest="50" TextColor="#526579" BackgroundColor="Transparent" CornerRadius="15" Clicked="ProfileTab_Clicked" SemanticProperties.Description="Profile" />
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

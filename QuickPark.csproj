@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-windows10.0.19041.0</TargetFrameworks>
+    <OutputType Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">WinExe</OutputType>
+    <OutputType Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">Exe</OutputType>
+    <RootNamespace>QuickPark</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <WindowsPackageType>None</WindowsPackageType>
+    <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+    <ApplicationTitle>QuickPark</ApplicationTitle>
+    <ApplicationId>com.quickpark.app</ApplicationId>
+    <ApplicationDisplayVersion>2.0</ApplicationDisplayVersion>
+    <ApplicationVersion>11</ApplicationVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <MauiIcon Include="Resources\Images\quickpark_app_icon.svg" BaseSize="512,512" />
+    <MauiImage Include="Resources\Images\**\*.svg" Exclude="Resources\Images\login_garage_panorama.svg;Resources\Images\quickpark_app_icon.svg" />
+    <MauiImage Include="Resources\Images\**\*.png" Exclude="Resources\Images\quickpark_brand_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="artifacts\**\*.cs;functions\**\*.cs;GoogleCloudCLI\**\*.cs;html\**\*.cs;Hypixel Studios\**\*.cs;Microsoft VS Code\**\*.cs;phone-download\**\*.cs;public-download\**\*.cs;QUCK PARK\**\*.cs;QuickPark-Phone-Download\**\*.cs;release-apk\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
+    <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="10.0.110" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+    <GoogleMapsAndroidApiKey Condition="'$(GoogleMapsAndroidApiKey)' == '' and '$(QUICKPARK_GOOGLE_MAPS_API_KEY)' != ''">$(QUICKPARK_GOOGLE_MAPS_API_KEY)</GoogleMapsAndroidApiKey>
+    <AndroidManifestPlaceholders>googleMapsAndroidApiKey=$(GoogleMapsAndroidApiKey)</AndroidManifestPlaceholders>
+    <DefineConstants Condition="'$(GoogleMapsAndroidApiKey)' == ''">$(DefineConstants);QUICKPARK_MAPS_KEY_MISSING</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="121.3.0.3" />
+    <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" Version="1.8.8.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Platforms\Android\google-services.json">
+      <LogicalName>QuickPark.google-services.json</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
