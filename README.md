@@ -15,4 +15,5 @@ Simple and responsive interface
 
 Purpose: QuickPark aims to improve parking management by reducing the time spent searching for available spaces and providing a more efficient parking experience.
 
+<img width="602" height="600" alt="image" src="https://github.com/user-attachments/assets/f17ad55f-e29e-4137-be6c-5c8bb91151b5" />
 
